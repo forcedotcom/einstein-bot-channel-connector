@@ -1,0 +1,30 @@
+.classpath
+.project
+.settings/
+
+tags
+.factorypath
+javac*.args
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+
+# Generated files
+.idea/**/contentModel.xml
+
+target/
+
+# File-based project format
+*.iws
+
+*.der

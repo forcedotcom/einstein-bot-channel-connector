@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.salesforce.einsteinbot.connector.framework.BotsHealthIndicator,\
+com.salesforce.einsteinbot.connector.framework.EinsteinBotAutoConfiguration
