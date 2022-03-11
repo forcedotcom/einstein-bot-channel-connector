@@ -22,6 +22,8 @@
   <artifactId>einstein-bot-channel-connector-example</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <name>einstein-bot-channel-connector-example</name>
+  <description>Example application to built using Channel Connector Starter to demonstrate the usage.</description>
+  <url>https://github.com/forcedotcom/einstein-bot-channel-connector</url>
 
   <properties>
     <java.version>1.8</java.version>

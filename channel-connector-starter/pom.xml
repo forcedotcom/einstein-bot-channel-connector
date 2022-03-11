@@ -22,7 +22,8 @@
   <artifactId>einstein-bot-channel-connector-java-starter</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <name>einstein-bot-channel-connector-java-starter</name>
-  <description>Starter project for creating an Einstein Bots channel connector</description>
+  <description>Channel Connector Framework is spring boot starter that simplifies building channel connectors for the salesforce einstein bot.</description>
+  <url>https://github.com/forcedotcom/einstein-bot-channel-connector</url>
   <packaging>jar</packaging>
   <properties>
     <java.version>1.8</java.version>
@@ -33,7 +34,7 @@
     <dependency>
       <groupId>com.salesforce.einsteinbot</groupId>
       <artifactId>einstein-bot-sdk-java</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <version>1.0.0-SNAPSHOT</version> <!--TODO -->
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
