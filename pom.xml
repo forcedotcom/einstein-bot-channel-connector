@@ -53,10 +53,10 @@
   </developers>
 
   <scm>
-    <connection>scm:git: https://github.com/forcedotcom/einstein-bot-channel-connector.git</connection>
-    <developerConnection>scm:git: https://github.com/forcedotcom/einstein-bot-channel-connector.git</developerConnection>
-    <url> https://github.com/forcedotcom/einstein-bot-channel-connector</url>
-    <tag>v1.0.0</tag>
+    <connection>scm:git:https://github.com/forcedotcom/einstein-bot-channel-connector.git</connection>
+    <developerConnection>scm:git:https://github.com/forcedotcom/einstein-bot-channel-connector.git</developerConnection>
+    <url>https://github.com/forcedotcom/einstein-bot-channel-connector</url>
+    <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>
