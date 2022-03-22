@@ -4,14 +4,7 @@ A Maven archetype for creating a new bot channel connector application. This wil
 
 ## How to Use
 
-### 1. Initial Setup 
-
-*This is will not be required once this artifacts are pushed to nexus or maven central*
-
-* Clone this repo.
-* Run `mvn install`  
-
-### 2. Generate Project using Archetype
+### 1. Generate Project using Archetype
 
 Execute the following command, **setting archetypeVersion to the most recently released version** of this library and `package`, `groupId`, `artifactId` to whatever you want your app to be called:
 
@@ -25,6 +18,6 @@ You can also use following command to run interactively and provide `groupId`, `
 mvn archetype:generate -DarchetypeGroupId=com.salesforce.einsteinbot -DarchetypeArtifactId=einstein-bot-channel-connector-archetype -DarchetypeVersion=1.0.1
 ```
 
-### 3. Start your application
+### 2. Start your application
 
 Follow README instructions of newly created app to start your application.
