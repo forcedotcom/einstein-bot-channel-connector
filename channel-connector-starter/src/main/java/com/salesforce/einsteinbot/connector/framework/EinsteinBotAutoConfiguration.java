@@ -58,8 +58,8 @@ public class EinsteinBotAutoConfiguration {
         .authMechanism(auth)
         .webClientBuilder(wcBuilder)
         .build())
-        .integrationName(einsteinBotConfiguration.getIntegrationName())
         .cache(cache)
+        .integrationName(einsteinBotConfiguration.getIntegrationName())
         .build();
   }
 }
