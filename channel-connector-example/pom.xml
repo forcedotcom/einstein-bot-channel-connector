@@ -18,7 +18,7 @@
 
   <groupId>com.salesforce.einsteinbot</groupId>
   <artifactId>einstein-bot-channel-connector-example</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.2</version>
   <name>einstein-bot-channel-connector-example</name>
   <description>Example application to built using Channel Connector Starter to demonstrate the usage.</description>
   <url>https://github.com/forcedotcom/einstein-bot-channel-connector</url>
@@ -34,7 +34,7 @@
     <dependency>
       <groupId>com.salesforce.einsteinbot</groupId>
       <artifactId>einstein-bot-channel-connector-java-starter</artifactId>
-      <version>1.0.2-SNAPSHOT</version>
+      <version>1.0.2</version>
     </dependency>
     <dependency>
       <groupId>com.newrelic.telemetry</groupId>
@@ -70,7 +70,7 @@
 
 
   <scm>
-    <tag>HEAD</tag>
+    <tag>v1.0.2</tag>
     <connection>scm:git:https://github.com/forcedotcom/einstein-bot-channel-connector.git</connection>
     <developerConnection>scm:git:https://github.com/forcedotcom/einstein-bot-channel-connector.git</developerConnection>
     <url>https://github.com/forcedotcom/einstein-bot-channel-connector</url>
