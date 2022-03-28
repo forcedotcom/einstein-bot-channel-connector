@@ -32,7 +32,7 @@
     <dependency>
       <groupId>com.salesforce.einsteinbot</groupId>
       <artifactId>einstein-bot-sdk-java</artifactId>
-      <version>1.0.3</version>
+      <version>${einstein-bot-sdk-java-version}</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>

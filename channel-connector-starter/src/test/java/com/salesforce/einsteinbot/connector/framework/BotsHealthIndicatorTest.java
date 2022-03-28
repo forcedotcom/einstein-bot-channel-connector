@@ -7,53 +7,50 @@
 
 package com.salesforce.einsteinbot.connector.framework;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
 import com.salesforce.einsteinbot.sdk.client.ChatbotClient;
+import com.salesforce.einsteinbot.sdk.model.Status;
+import com.salesforce.einsteinbot.sdk.model.Status.StatusEnum;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.actuate.health.Health;
 
 @ExtendWith(MockitoExtension.class)
 public class BotsHealthIndicatorTest {
 
   @Mock
   private ChatbotClient chatbotClient;
-  // TODO: Fix After W-10712366
- /* @Test
+
+  private BotsHealthIndicator botsHealthIndicator = new BotsHealthIndicator();
+
+  @BeforeEach
+  public void setup(){
+    botsHealthIndicator = new BotsHealthIndicator();
+    botsHealthIndicator.setChatbotClient(chatbotClient);
+   }
+
+  @Test
   public void testChatbotsStatusDown() {
-    BotsHealthIndicator cut = new BotsHealthIndicator();
-    cut.setChatbotClient(chatbotClient);
 
-    StatusEnum red = StatusEnum.RED;
-    Status status = new Status();
-    status.setStatus(red);
-    when(chatbotClient.getHealthStatus()).thenReturn(status);
+    when(chatbotClient.getHealthStatus())
+        .thenReturn(new Status()
+            .status(StatusEnum.DOWN));
 
-    assertEquals(Health.down().build(), cut.health());
+    assertEquals(Health.down().build(), botsHealthIndicator.health());
   }
 
   @Test
   public void testChatbotsStatusUp() {
-    BotsHealthIndicator cut = new BotsHealthIndicator();
-    cut.setChatbotClient(chatbotClient);
+    when(chatbotClient.getHealthStatus())
+        .thenReturn(new Status()
+            .status(StatusEnum.UP));;
 
-    StatusEnum green = StatusEnum.GREEN;
-    Status status = new Status();
-    status.setStatus(green);
-    when(chatbotClient.getHealthStatus()).thenReturn(status);
-
-    assertEquals(Health.up().build(), cut.health());
+    assertEquals(Health.up().build(), botsHealthIndicator.health());
   }
 
-  @Test
-  public void testChatbotsStatusUnknown() {
-    BotsHealthIndicator cut = new BotsHealthIndicator();
-    cut.setChatbotClient(chatbotClient);
-
-    StatusEnum yellow = StatusEnum.YELLOW;
-    Status status = new Status();
-    status.setStatus(yellow);
-    when(chatbotClient.getHealthStatus()).thenReturn(status);
-
-    assertEquals(Health.unknown().build(), cut.health());
-  }*/
 }

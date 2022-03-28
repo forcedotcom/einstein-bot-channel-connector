@@ -9,6 +9,8 @@ package com.salesforce.einsteinbot.connector.framework;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.salesforce.einsteinbot.sdk.client.ChatbotClient;
+import com.salesforce.einsteinbot.sdk.model.Status;
+import com.salesforce.einsteinbot.sdk.model.Status.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
@@ -22,19 +24,17 @@ public class BotsHealthIndicator implements HealthIndicator {
 
   @Override
   public Health health() {
-    // TODO: Fix After W-10712366
-   /* Status healthStatus = chatbotClient.getHealthStatus();
+    Status healthStatus = chatbotClient.getHealthStatus();
 
     StatusEnum status = healthStatus.getStatus();
     switch (status) {
-      case RED:
+      case DOWN:
         return Health.down().build();
-      case GREEN:
+      case UP:
         return Health.up().build();
       default:
         return Health.unknown().build();
-    }*/
-    return Health.up().build();
+    }
   }
 
   @VisibleForTesting
