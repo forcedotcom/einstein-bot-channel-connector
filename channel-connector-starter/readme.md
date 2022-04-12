@@ -79,7 +79,7 @@ check health of chatbot runtime system.
 
 ### Example
 
-See [ChatbotController](../channel-connector-example/src/main/java/com/salesforce/chatbot/connector/example/ChatbotController.java)
+See [ChatbotController](../channel-connector-example/src/main/java/com/salesforce/einsteinbot/connector/example/EinsteinBotController.java)
 for example code and [channel-connector-example](../channel-connector-example) dir fully working
 application.
 
