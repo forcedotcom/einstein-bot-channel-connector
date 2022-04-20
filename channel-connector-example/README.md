@@ -8,7 +8,7 @@ Before you can run this example app, you need to
 
 * [Create a Connected App to Access Einstein Bot APIs](http://bot-api-sdk.herokuapp.com/einstein-bot-api/guide/prerequisites.html#step-1:-create-a-connected-app)
 * [Configure an Einstein Bot](http://bot-api-sdk.herokuapp.com/einstein-bot-api/guide/prerequisites.html#step-2:-configure-an-einstein-bot)
-* Update  [application.properties](example/src/main/resources/application.properties) according to
+* Update  [application.properties](src/main/resources/application.properties) according to
   your setup.
 
 ## Running this Example

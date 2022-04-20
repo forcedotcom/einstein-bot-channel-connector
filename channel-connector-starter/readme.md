@@ -39,11 +39,16 @@ sfdc.einstein.bots.oauth.connected-app-id=${CONNECTED_APP_ID}
 sfdc.einstein.bots.oauth.connected-app-secret=${CONNECTED_APP_SECRET}
 #The user ID for the login that will be used to obtain oauth tokens (should be the user that created the connected app in Salesforce)
 sfdc.einstein.bots.oauth.user-id=${SFDC_USER_ID}
-#Cache properties
-#Time to cache information to avoid network requests. For e.g oAuth token will cached for ttlseconds.
+
+#OAuth Cache properties
+#Time to cache information to avoid network requests. 
+#For e.g oAuth token will cached for ttlseconds.
+sfdc.einstein.bots.oauth.cache.ttlseconds=${CACHE_TTL_SECS:259140}
+
+#Session Managed Client Cache properties
+#Time to cache External Session Id to Runtime Session Id mapping.
+# Provide appropriate value depending on your channel.
 sfdc.einstein.bots.cache.ttlseconds=${CACHE_TTL_SECS:259140}
-#Optional to use Redis as Cache.
-sfdc.einstein.bots.cache.redis-url=${CACHE_REDIS_URL}
 ```
 
 ### Using Auto Configured Spring Beans
@@ -56,7 +61,7 @@ be Autowired in spring managed code.
 If all oauth properties ( `sfdc.einstein.bots.oauth.*` ) are configured in application
 properties, `AuthMechanism` will be auto configured to use JWTBearerOAuth mechanism. Service owners
 can also provide their own Auth Mechanism by
-implementing  [AuthMechanism](https://git.soma.salesforce.com/chatbots/module-api-sdk-java/blob/master/src/main/java/com/salesforce/chatbot/sdk/auth/AuthMechanism.java)
+implementing  [AuthMechanism](https://github.com/forcedotcom/einstein-bot-sdk-java/blob/master/src/main/java/com/salesforce/einsteinbot/sdk/auth/AuthMechanism.java)
 interface. If custom implementation is found, it will be auto configured.
 
 #### Cache
@@ -64,7 +69,7 @@ interface. If custom implementation is found, it will be auto configured.
 If `sfdc.einstein.bots.cache.redis-url` is found in application properties, `Cache`  will be auto
 configured to use Redis Cache implementation, otherwise `InMemoryCache` implementation will be
 injected. Service owners can also provide their own Cache strategy by
-implementing [Cache](https://git.soma.salesforce.com/chatbots/module-api-sdk-java/blob/master/src/main/java/com/salesforce/chatbot/sdk/cache/Cache.java)
+implementing [Cache](https://github.com/forcedotcom/einstein-bot-sdk-java/blob/master/src/main/java/com/salesforce/einsteinbot/sdk/cache/Cache.java)
 interface. If custom implementation is found, it will be auto configured.
 
 #### ChatbotClient
@@ -100,5 +105,5 @@ Graphite etc.
 
 it is responsibility of the service to configure micrometer with appropriate publishig system. Refer
 to [documentation](https://micrometer.io/docs) corresponding to your monitoring system.
-See [NewRelicMetricsExportAutoConfiguration](example/src/main/java/com/salesforce/chatbot/connector/example/NewRelicMetricsExportAutoConfiguration.java)
+See [NewRelicMetricsExportAutoConfiguration](channel-connector-example/src/main/java/com/salesforce/einsteinbot/connector/example/NewRelicMetricsExportAutoConfiguration.java)
 as example code for publishing to New Relic.
