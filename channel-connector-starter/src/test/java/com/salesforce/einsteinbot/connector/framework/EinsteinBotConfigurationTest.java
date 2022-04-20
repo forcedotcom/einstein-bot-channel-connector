@@ -71,9 +71,6 @@ public class EinsteinBotConfigurationTest {
     assertNotNull(oAuthCache);
     assertEquals(TEST_REDIS_URL, oAuthCache.getRedisUrl());
     assertNull(oAuthCache.getTtlSeconds());
-
-    System.out.println("RAJA -> " + oAuth.getCache());
-
   }
 
 }
