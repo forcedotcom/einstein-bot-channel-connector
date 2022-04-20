@@ -44,9 +44,14 @@ public class EinsteinBotAutoConfiguration {
   @ConditionalOnMissingBean
   public AuthMechanism getOAuth(Cache cache) {
     EinsteinBotConfiguration.OAuth oauthConfig = einsteinBotConfiguration.getoAuth();
-    return new JwtBearerOAuth(oauthConfig.getPrivateKeyFile(), oauthConfig.getLoginEndpoint(),
-        oauthConfig.getConnectedAppId(), oauthConfig.getConnectedAppSecret(),
-        oauthConfig.getUserId(), cache);
+    return JwtBearerOAuth.with()
+        .privateKeyFilePath(oauthConfig.getPrivateKeyFile())
+        .loginEndpoint(oauthConfig.getLoginEndpoint())
+        .connectedAppId(oauthConfig.getConnectedAppId())
+        .connectedAppSecret(oauthConfig.getConnectedAppSecret())
+        .userId(oauthConfig.getUserId())
+        .cache(cache)
+        .build();
   }
 
   @Bean

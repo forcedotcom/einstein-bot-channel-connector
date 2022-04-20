@@ -17,6 +17,7 @@ import static com.salesforce.einsteinbot.connector.framework.TestConfigPropertie
 import static com.salesforce.einsteinbot.connector.framework.TestConfigProperties.TEST_USER_ID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,8 @@ import org.springframework.boot.test.context.SpringBootTest;
         "sfdc.einstein.bots.oauth.login-endpoint=" + TEST_LOGIN_ENDPOINT,
         "sfdc.einstein.bots.oauth.connected-app-id=" + TEST_CONNECTED_APP_ID,
         "sfdc.einstein.bots.oauth.connected-app-secret=" + TEST_CONNECTED_APP_SECRET,
-        "sfdc.einstein.bots.oauth.user-id=" + TEST_USER_ID
+        "sfdc.einstein.bots.oauth.user-id=" + TEST_USER_ID,
+        "sfdc.einstein.bots.oauth.cache.redis-url=" + TEST_REDIS_URL
     }
 )
 public class EinsteinBotConfigurationTest {
@@ -64,6 +66,13 @@ public class EinsteinBotConfigurationTest {
     assertEquals(TEST_CONNECTED_APP_SECRET, oAuth.getConnectedAppSecret());
     assertEquals(TEST_PRIVATE_KEY, oAuth.getPrivateKeyFile());
     assertEquals(TEST_USER_ID, oAuth.getUserId());
+
+    EinsteinBotConfiguration.Cache oAuthCache = einsteinBotConfiguration.getoAuth().getCache();
+    assertNotNull(oAuthCache);
+    assertEquals(TEST_REDIS_URL, oAuthCache.getRedisUrl());
+    assertNull(oAuthCache.getTtlSeconds());
+
+    System.out.println("RAJA -> " + oAuth.getCache());
 
   }
 
