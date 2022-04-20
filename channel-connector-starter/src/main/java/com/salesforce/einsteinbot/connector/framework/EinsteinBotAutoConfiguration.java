@@ -30,11 +30,25 @@ public class EinsteinBotAutoConfiguration {
   @Autowired
   private EinsteinBotConfiguration einsteinBotConfiguration;
 
-  public Cache createCacheFromCacheConfig(EinsteinBotConfiguration.Cache cache) {
-    if (cache.getRedisUrl() != null) {
-      return new RedisCache(cache.getTtlSeconds(), cache.getRedisUrl());
+  @Bean
+  @ConditionalOnMissingBean
+  public Cache getCache() {
+    return createCacheFromCacheConfig(einsteinBotConfiguration.getCache());
+  }
+
+  public Optional<Cache> getCacheForOAuth(EinsteinBotConfiguration.Cache cacheConfig) {
+    if (cacheConfig != null && cacheConfig.getTtlSeconds() != null){
+      return Optional.of(createCacheFromCacheConfig(cacheConfig));
+    }else{
+      return Optional.empty();
+    }
+  }
+
+  private Cache createCacheFromCacheConfig(EinsteinBotConfiguration.Cache cacheConfig) {
+    if (cacheConfig.getRedisUrl() != null) {
+      return new RedisCache(cacheConfig.getTtlSeconds(), cacheConfig.getRedisUrl());
     } else {
-      return new InMemoryCache(cache.getTtlSeconds());
+      return new InMemoryCache(cacheConfig.getTtlSeconds());
     }
   }
 
@@ -48,20 +62,20 @@ public class EinsteinBotAutoConfiguration {
         .connectedAppId(oauthConfig.getConnectedAppId())
         .connectedAppSecret(oauthConfig.getConnectedAppSecret())
         .userId(oauthConfig.getUserId())
-        .cache(createCacheFromCacheConfig(oauthConfig.getCache()))
+        .cache(getCacheForOAuth(oauthConfig.getCache()))
         .build();
   }
 
   @Bean
   @ConditionalOnMissingBean
   public ChatbotClient getChatbotClient(AuthMechanism auth,
-      WebClient.Builder wcBuilder) {
+      WebClient.Builder wcBuilder, Cache cache) {
     return SessionManagedChatbotClient.builder().basicClient(BasicChatbotClient.builder()
         .basePath(einsteinBotConfiguration.getRuntimeUrl())
         .authMechanism(auth)
         .webClientBuilder(wcBuilder)
         .build())
-        .cache(createCacheFromCacheConfig(einsteinBotConfiguration.getCache()))
+        .cache(cache)
         .integrationName(einsteinBotConfiguration.getIntegrationName())
         .build();
   }
