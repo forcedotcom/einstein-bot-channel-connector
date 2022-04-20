@@ -105,5 +105,5 @@ Graphite etc.
 
 it is responsibility of the service to configure micrometer with appropriate publishig system. Refer
 to [documentation](https://micrometer.io/docs) corresponding to your monitoring system.
-See [NewRelicMetricsExportAutoConfiguration](channel-connector-example/src/main/java/com/salesforce/einsteinbot/connector/example/NewRelicMetricsExportAutoConfiguration.java)
+See [NewRelicMetricsExportAutoConfiguration](../channel-connector-example/src/main/java/com/salesforce/einsteinbot/connector/example/NewRelicMetricsExportAutoConfiguration.java)
 as example code for publishing to New Relic.
