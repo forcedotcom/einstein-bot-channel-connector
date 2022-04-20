@@ -40,15 +40,19 @@ sfdc.einstein.bots.oauth.connected-app-secret=${CONNECTED_APP_SECRET}
 #The user ID for the login that will be used to obtain oauth tokens (should be the user that created the connected app in Salesforce)
 sfdc.einstein.bots.oauth.user-id=${SFDC_USER_ID}
 
-#OAuth Cache properties
+#Optional OAuth Cache properties
 #Time to cache information to avoid network requests. 
 #For e.g oAuth token will cached for ttlseconds.
 sfdc.einstein.bots.oauth.cache.ttlseconds=${CACHE_TTL_SECS:259140}
+#Optional to use Redis as OAuth Cache.
+sfdc.einstein.bots.oauth.cache.redis-url=${CACHE_REDIS_URL}
 
 #Session Managed Client Cache properties
 #Time to cache External Session Id to Runtime Session Id mapping.
 # Provide appropriate value depending on your channel.
 sfdc.einstein.bots.cache.ttlseconds=${CACHE_TTL_SECS:259140}
+#Optional to use Redis as Cache.
+sfdc.einstein.bots.cache.redis-url=${CACHE_REDIS_URL}
 ```
 
 ### Using Auto Configured Spring Beans

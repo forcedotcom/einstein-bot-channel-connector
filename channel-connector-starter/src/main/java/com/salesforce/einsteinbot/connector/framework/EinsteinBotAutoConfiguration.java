@@ -36,7 +36,7 @@ public class EinsteinBotAutoConfiguration {
     return createCacheFromCacheConfig(einsteinBotConfiguration.getCache());
   }
 
-  public Optional<Cache> getCacheForOAuth(EinsteinBotConfiguration.Cache cacheConfig) {
+  private Optional<Cache> getCacheForOAuth(EinsteinBotConfiguration.Cache cacheConfig) {
     if (cacheConfig != null && cacheConfig.getTtlSeconds() != null){
       return Optional.of(createCacheFromCacheConfig(cacheConfig));
     }else{
