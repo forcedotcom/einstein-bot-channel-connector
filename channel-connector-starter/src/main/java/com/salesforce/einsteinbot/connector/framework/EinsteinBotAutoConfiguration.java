@@ -15,6 +15,7 @@ import com.salesforce.einsteinbot.sdk.cache.RedisCache;
 import com.salesforce.einsteinbot.sdk.client.BasicChatbotClient;
 import com.salesforce.einsteinbot.sdk.client.ChatbotClient;
 import com.salesforce.einsteinbot.sdk.client.SessionManagedChatbotClient;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -32,27 +33,43 @@ public class EinsteinBotAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean
   public Cache getCache() {
-    EinsteinBotConfiguration.Cache cache = einsteinBotConfiguration.getCache();
-    if (cache.getRedisUrl() != null) {
-      return new RedisCache(cache.getTtlSeconds(), cache.getRedisUrl());
+    return createCacheFromCacheConfig(einsteinBotConfiguration.getCache());
+  }
+
+  private Optional<Cache> getCacheForOAuth(EinsteinBotConfiguration.Cache cacheConfig) {
+    if (cacheConfig != null && cacheConfig.getTtlSeconds() != null){
+      return Optional.of(createCacheFromCacheConfig(cacheConfig));
+    }else{
+      return Optional.empty();
+    }
+  }
+
+  private Cache createCacheFromCacheConfig(EinsteinBotConfiguration.Cache cacheConfig) {
+    if (cacheConfig.getRedisUrl() != null) {
+      return new RedisCache(cacheConfig.getTtlSeconds(), cacheConfig.getRedisUrl());
     } else {
-      return new InMemoryCache(cache.getTtlSeconds());
+      return new InMemoryCache(cacheConfig.getTtlSeconds());
     }
   }
 
   @Bean
   @ConditionalOnMissingBean
-  public AuthMechanism getOAuth(Cache cache) {
+  public AuthMechanism getOAuth() {
     EinsteinBotConfiguration.OAuth oauthConfig = einsteinBotConfiguration.getoAuth();
-    return new JwtBearerOAuth(oauthConfig.getPrivateKeyFile(), oauthConfig.getLoginEndpoint(),
-        oauthConfig.getConnectedAppId(), oauthConfig.getConnectedAppSecret(),
-        oauthConfig.getUserId(), cache);
+    return JwtBearerOAuth.with()
+        .privateKeyFilePath(oauthConfig.getPrivateKeyFile())
+        .loginEndpoint(oauthConfig.getLoginEndpoint())
+        .connectedAppId(oauthConfig.getConnectedAppId())
+        .connectedAppSecret(oauthConfig.getConnectedAppSecret())
+        .userId(oauthConfig.getUserId())
+        .cache(getCacheForOAuth(oauthConfig.getCache()))
+        .build();
   }
 
   @Bean
   @ConditionalOnMissingBean
-  public ChatbotClient getChatbotClient(AuthMechanism auth, Cache cache,
-      WebClient.Builder wcBuilder) {
+  public ChatbotClient getChatbotClient(AuthMechanism auth,
+      WebClient.Builder wcBuilder, Cache cache) {
     return SessionManagedChatbotClient.builder().basicClient(BasicChatbotClient.builder()
         .basePath(einsteinBotConfiguration.getRuntimeUrl())
         .authMechanism(auth)

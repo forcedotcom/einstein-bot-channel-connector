@@ -104,6 +104,7 @@ public class EinsteinBotConfiguration {
     private String connectedAppId;
     private String connectedAppSecret;
     private String userId;
+    private Cache cache;
 
     public String getPrivateKeyFile() {
       return privateKeyFile;
@@ -143,6 +144,14 @@ public class EinsteinBotConfiguration {
 
     public void setUserId(String userId) {
       this.userId = userId;
+    }
+
+    public Cache getCache() {
+      return cache;
+    }
+
+    public void setCache(Cache cache) {
+      this.cache = cache;
     }
 
     @Override

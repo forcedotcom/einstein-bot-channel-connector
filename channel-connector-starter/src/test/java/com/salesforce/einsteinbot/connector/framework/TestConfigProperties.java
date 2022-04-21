@@ -15,6 +15,7 @@ package com.salesforce.einsteinbot.connector.framework;
 public class TestConfigProperties {
 
   public static final String TEST_REDIS_URL = "redis://127.0.0.1:6379";
+  public static final long TEST_OAUTH_TTL_SECS = 60l;
   public static final String TEST_RUNTIME_URL = "https://runtime-api-na-west.stg.chatbots.sfdc.sh";
   public static final String TEST_INTEGRATION_NAME = "integrationName";
   public static final String TEST_PRIVATE_KEY = "src/test/resources/PrivateKeyFalconTest1.der";
