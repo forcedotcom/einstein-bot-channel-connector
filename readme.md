@@ -3,8 +3,8 @@
 This is the parent project of Einstein Bot Channel Connector. This contains following submodules:
 
 * [channel-connector-starter](channel-connector-starter) : Channel Connector Framework is spring boot starter that simplifies building channel connectors for the salesforce einstein bot.
-* [channel-connector-example](channel-connector-example) : Example application to built using Channel Connector Starter to demonstrate the usage.
 * [channel-connector-archetype](channel-connector-archetype) : A Maven archetype for creating a new bot channel connector application
+* [examples](examples) : Example applications built using Channel Connector Starter to demonstrate the usage.
 
 Please see README files in submodules for usage.
 

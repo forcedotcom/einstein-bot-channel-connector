@@ -17,9 +17,9 @@
   </parent>
 
   <groupId>com.salesforce.einsteinbot</groupId>
-  <artifactId>einstein-bot-channel-connector-example</artifactId>
+  <artifactId>einstein-bot-channel-ui-connector</artifactId>
   <version>1.0.5-SNAPSHOT</version>
-  <name>einstein-bot-channel-connector-example</name>
+  <name>einstein-bot-channel-ui-connector</name>
   <description>Example application to built using Channel Connector Starter to demonstrate the usage.</description>
   <url>https://github.com/forcedotcom/einstein-bot-channel-connector</url>
 

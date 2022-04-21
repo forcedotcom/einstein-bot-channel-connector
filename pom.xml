@@ -81,7 +81,7 @@
 
   <modules>
     <module>channel-connector-starter</module>
-    <module>channel-connector-example</module>
+    <module>examples/ui-connector</module>
     <module>channel-connector-archetype</module>
   </modules>
 
