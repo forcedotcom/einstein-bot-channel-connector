@@ -82,10 +82,17 @@ public class EinsteinBotService {
         tweet.getConversationId(), this.botId, this.forceConfigEndpoint,
         Arrays.asList(message));
     logger.debug("Converted tweet into Einstein bot request envelope: {}", requestEnvelope);
-    // 2. Send message to einstein bot
-    ResponseEnvelope responseEnvelope = this.chatbotClient.sendChatbotRequest(requestEnvelope,
-        this.requestHeaders);
-    logger.debug("Received response from Einstein bot: {}", responseEnvelope);
+    ResponseEnvelope responseEnvelope = null;
+    try {
+      // 2. Send message to einstein bot
+      responseEnvelope = this.chatbotClient.sendChatbotRequest(requestEnvelope,
+          this.requestHeaders);
+      logger.debug("Received response from Einstein bot: {}", responseEnvelope);
+    } catch (Exception e) {
+      logger.error("Error when calling einstein bots", e);
+      // If no response from bots then don't respond to tweet
+      return;
+    }
     // 3. Convert einstein bot response to tweet
     CreateTweetRequest tweetRequest = MessageTransformer.buildTweetRequest(responseEnvelope, tweet);
     logger.debug("Converted Einstein response to tweet request: {}", tweetRequest);
