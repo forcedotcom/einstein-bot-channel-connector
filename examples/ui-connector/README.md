@@ -1,6 +1,6 @@
-# Channel Connector Starter Example
+# UI Connector
 
-This Example application to built using Channel Connector Starter to demonstrate the usage.
+This Example UI application is built using Channel Connector Starter to demonstrate the usage. It provides web based UI to interact with bot APIs.
 
 ## Pre Requisites
 
@@ -14,14 +14,14 @@ Before you can run this example app, you need to
 ## Running this Example
 
 * Install einstein-bot-channel-connector-java-starter.
-    * Go to <channel-connector-java-starter> dir `cd ../channel-connector-starter`
+    * Go to <channel-connector-java-starter> dir `cd <project root>/channel-connector-starter`
     * Run `mvn clean install`
 
 * Run spring boot application using maven
 
-    * Go to channel-connector-example dir. `cd ../channel-connector-example`
+    * Go to channel-connector-example dir. `cd <project root>/examples/ui-connector`
 
-    * Run ` mvn spring-boot:run`
+    * Run `mvn spring-boot:run`
 
 ## Testing Chatbot Client using Tester Controller
 

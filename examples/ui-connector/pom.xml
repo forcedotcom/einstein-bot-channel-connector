@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2022, salesforce.com, inc.
+  ~ All rights reserved.
+  ~ SPDX-License-Identifier: BSD-3-Clause
+  ~ For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.5.6</version>
+    <relativePath /> <!-- lookup parent from repository -->
+  </parent>
+
+  <groupId>com.salesforce.einsteinbot</groupId>
+  <artifactId>einstein-bot-ui-connector</artifactId>
+  <version>1.0.5-SNAPSHOT</version>
+  <name>einstein-bot-ui-connector</name>
+  <description>Example application to built using Channel Connector Starter to demonstrate the usage.</description>
+  <url>https://github.com/forcedotcom/einstein-bot-channel-connector</url>
+
+  <properties>
+    <java.version>1.8</java.version>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <bootstrap.version>4.2.1</bootstrap.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.salesforce.einsteinbot</groupId>
+      <artifactId>einstein-bot-channel-connector-java-starter</artifactId>
+      <version>1.0.5-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.newrelic.telemetry</groupId>
+      <artifactId>micrometer-registry-new-relic</artifactId>
+      <version>0.8.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>salesforce-lightning-design-system</artifactId>
+      <version>2.13.3</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>2.4.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+
+  <scm>
+    <tag>HEAD</tag>
+    <connection>scm:git:https://github.com/forcedotcom/einstein-bot-channel-connector.git</connection>
+    <developerConnection>scm:git:https://github.com/forcedotcom/einstein-bot-channel-connector.git</developerConnection>
+    <url>https://github.com/forcedotcom/einstein-bot-channel-connector</url>
+  </scm>
+</project>

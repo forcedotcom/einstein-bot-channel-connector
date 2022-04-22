@@ -88,9 +88,7 @@ check health of chatbot runtime system.
 
 ### Example
 
-See [EinsteinBotController](../channel-connector-example/src/main/java/com/salesforce/einsteinbot/connector/example/EinsteinBotController.java)
-for example code and [channel-connector-example](../channel-connector-example) dir fully working
-application.
+See [EinsteinBotController](../examples/ui-connector/src/main/java/com/salesforce/einsteinbot/connector/example/EinsteinBotController.java) for example code and [ui-connector](../examples/ui-connector) dir fully working application.
 
 ### Observability
 
@@ -109,5 +107,5 @@ Graphite etc.
 
 it is responsibility of the service to configure micrometer with appropriate publishig system. Refer
 to [documentation](https://micrometer.io/docs) corresponding to your monitoring system.
-See [NewRelicMetricsExportAutoConfiguration](../channel-connector-example/src/main/java/com/salesforce/einsteinbot/connector/example/NewRelicMetricsExportAutoConfiguration.java)
+See [NewRelicMetricsExportAutoConfiguration](../examples/ui-connector/src/main/java/com/salesforce/einsteinbot/connector/example/NewRelicMetricsExportAutoConfiguration.java)
 as example code for publishing to New Relic.
