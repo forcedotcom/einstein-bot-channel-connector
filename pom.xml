@@ -81,8 +81,9 @@
 
   <modules>
     <module>channel-connector-starter</module>
-    <module>examples/ui-connector</module>
     <module>channel-connector-archetype</module>
+    <module>examples/ui-connector</module>
+    <module>examples/twitter-connector</module>
   </modules>
 
   <build>
