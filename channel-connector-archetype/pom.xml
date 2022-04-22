@@ -12,13 +12,13 @@
   <parent>
     <groupId>com.salesforce.einsteinbot</groupId>
     <artifactId>einstein-bot-channel-connector</artifactId>
-    <version>1.0.5-SNAPSHOT</version>
+    <version>1.0.5</version>
     <relativePath>../</relativePath>
   </parent>
 
   <groupId>com.salesforce.einsteinbot</groupId>
   <artifactId>einstein-bot-channel-connector-archetype</artifactId>
-  <version>1.0.5-SNAPSHOT</version>
+  <version>1.0.5</version>
   <packaging>maven-archetype</packaging>
   <name>einstein-bot-channel-connector-archetype</name>
   <description>A Maven archetype for creating a new bot channel connector application</description>
