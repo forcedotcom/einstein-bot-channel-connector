@@ -8,6 +8,7 @@ package com.salesforce.einsteinbot.twitter.connector.util;
 
 import com.salesforce.einsteinbot.sdk.client.model.BotRequest;
 import com.salesforce.einsteinbot.sdk.client.model.BotSendMessageRequest;
+import com.salesforce.einsteinbot.sdk.client.util.RequestEnvelopeInterceptor;
 import com.salesforce.einsteinbot.sdk.model.AnyRequestMessage;
 import com.salesforce.einsteinbot.sdk.model.AnyResponseMessage;
 import com.salesforce.einsteinbot.sdk.model.ChoicesResponseMessage;
@@ -28,8 +29,12 @@ public class MessageTransformer {
 
   public static final String NEW_LINE = "\n";
 
-  public static BotSendMessageRequest buildBotSendMessageRequest(AnyRequestMessage message) {
-    return BotRequest.withMessage(message).build();
+  public static BotSendMessageRequest buildBotSendMessageRequest(AnyRequestMessage message,
+      RequestEnvelopeInterceptor requestEnvelopeInterceptor) {
+    return BotRequest
+        .withMessage(message)
+        .requestEnvelopeInterceptor(requestEnvelopeInterceptor)
+        .build();
   }
 
   public static AnyRequestMessage buildChatbotMessage(final Tweet tweet,

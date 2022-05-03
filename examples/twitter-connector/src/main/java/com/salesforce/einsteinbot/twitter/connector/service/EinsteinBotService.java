@@ -11,6 +11,7 @@ import com.salesforce.einsteinbot.sdk.client.model.BotResponse;
 import com.salesforce.einsteinbot.sdk.client.model.BotSendMessageRequest;
 import com.salesforce.einsteinbot.sdk.client.model.ExternalSessionId;
 import com.salesforce.einsteinbot.sdk.client.model.RequestConfig;
+import com.salesforce.einsteinbot.sdk.client.util.RequestEnvelopeInterceptor;
 import com.salesforce.einsteinbot.sdk.model.AnyRequestMessage;
 import com.salesforce.einsteinbot.twitter.connector.listener.TweetCreateResponseApiCallback;
 import com.salesforce.einsteinbot.twitter.connector.util.MessageTransformer;
@@ -56,6 +57,9 @@ public class EinsteinBotService {
 
   private TweetCreateResponseApiCallback tweetCreateResponseApiCallback;
 
+  private RequestEnvelopeInterceptor requestEnvelopeInterceptor =
+      (requestEnvelope) -> logger.debug("Converted tweet into Einstein bot request envelope: {}", requestEnvelope);
+
   @PostConstruct
   public void setup() {
     this.requestConfig = RequestConfig.with()
@@ -82,8 +86,8 @@ public class EinsteinBotService {
     ExternalSessionId externalSessionId = new ExternalSessionId(tweet.getConversationId());
     AnyRequestMessage message = MessageTransformer.buildChatbotMessage(tweet, this.twitterUserName);
     BotSendMessageRequest sendMessageRequest = MessageTransformer
-        .buildBotSendMessageRequest(message);
-    //TODO logger.debug("Converted tweet into Einstein bot request envelope: {}", requestEnvelope);
+        .buildBotSendMessageRequest(message, requestEnvelopeInterceptor);
+
     BotResponse botResponse = null;
     try {
       // 2. Send message to einstein bot
