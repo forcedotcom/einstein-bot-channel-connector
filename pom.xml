@@ -17,7 +17,6 @@
   </parent>
   <groupId>com.salesforce.einsteinbot</groupId>
   <artifactId>einstein-bot-channel-connector</artifactId>
-  <version>1.0.6-SNAPSHOT</version>
   <name>einstein-bot-channel-connector</name>
   <description>Parent Maven project for Einstein Bots channel connector</description>
   <url>https://github.com/forcedotcom/einstein-bot-channel-connector</url>
@@ -28,7 +27,7 @@
     <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
     <maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
     <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-    <einstein-bot-sdk-java-version>1.0.6</einstein-bot-sdk-java-version>
+    <einstein-bot-sdk-java-version>2.0.0-SNAPSHOT</einstein-bot-sdk-java-version>
   </properties>
 
   <licenses>
@@ -82,8 +81,8 @@
   <modules>
     <module>channel-connector-starter</module>
     <module>channel-connector-archetype</module>
-    <module>examples/ui-connector</module>
-    <module>examples/twitter-connector</module>
+     <module>examples/ui-connector</module>
+    <!-- <module>examples/twitter-connector</module> -->
   </modules>
 
   <build>

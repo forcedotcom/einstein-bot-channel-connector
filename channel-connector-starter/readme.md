@@ -76,10 +76,15 @@ injected. Service owners can also provide their own Cache strategy by
 implementing [Cache](https://github.com/forcedotcom/einstein-bot-sdk-java/blob/master/src/main/java/com/salesforce/einsteinbot/sdk/cache/Cache.java)
 interface. If custom implementation is found, it will be auto configured.
 
-#### ChatbotClient
+#### BasicChatbotClient
 
-If all required properties are found in application properties,  `ChatbotClient` implementation will
-be auto configured out of the box.
+If application properties has all required properties,  `BasicChatbotClient` implementation will
+be autoconfigured out of the box.
+
+#### SessionManagedChatbotClient
+
+If application properties has all required properties,  `SessionManagedChatbotClient` implementation will
+be autoconfigured out of the box.
 
 #### BotsHealthIndicator
 

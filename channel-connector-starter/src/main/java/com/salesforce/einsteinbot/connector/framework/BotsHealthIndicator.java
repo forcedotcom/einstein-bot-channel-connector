@@ -8,6 +8,7 @@
 package com.salesforce.einsteinbot.connector.framework;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.salesforce.einsteinbot.sdk.client.BasicChatbotClient;
 import com.salesforce.einsteinbot.sdk.client.ChatbotClient;
 import com.salesforce.einsteinbot.sdk.model.Status;
 import com.salesforce.einsteinbot.sdk.model.Status.StatusEnum;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Component;
 public class BotsHealthIndicator implements HealthIndicator {
 
   @Autowired
-  private ChatbotClient chatbotClient;
+  private BasicChatbotClient chatbotClient;
 
   @Override
   public Health health() {
@@ -38,7 +39,7 @@ public class BotsHealthIndicator implements HealthIndicator {
   }
 
   @VisibleForTesting
-  void setChatbotClient(ChatbotClient chatbotClient) {
+  void setChatbotClient(BasicChatbotClient chatbotClient) {
     this.chatbotClient = chatbotClient;
   }
 }
