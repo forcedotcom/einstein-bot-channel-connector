@@ -19,9 +19,7 @@ import com.salesforce.einsteinbot.connector.example.model.TesterRequest;
 import com.salesforce.einsteinbot.connector.example.model.TesterResults;
 import com.salesforce.einsteinbot.connector.framework.BotsHealthIndicator;
 import com.salesforce.einsteinbot.sdk.client.SessionManagedChatbotClient;
-import com.salesforce.einsteinbot.sdk.client.model.BotEndSessionRequest;
 import com.salesforce.einsteinbot.sdk.client.model.BotResponse;
-import com.salesforce.einsteinbot.sdk.client.model.BotSendMessageRequest;
 import com.salesforce.einsteinbot.sdk.client.model.ExternalSessionId;
 import com.salesforce.einsteinbot.sdk.client.model.RequestConfig;
 import com.salesforce.einsteinbot.sdk.client.util.RequestEnvelopeInterceptor;
@@ -45,9 +43,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * EinsteinBotController - Example controller to test various Chatbot request messages.
- *
- * TODO: This Controller not authenticated and it is provided only to easily test during development.
- * Please remove it before deploying to production.
+ * <p>
+ * TODO: This Controller not authenticated and it is provided only to easily test during
+ * development. Please remove it before deploying to production.
  */
 @Controller
 @RequestMapping("bot")
@@ -118,7 +116,8 @@ public class EinsteinBotController {
       BotResponse botResponse;
       if (testerRequest.getMessageType().equals(RequestMessageType.END_SESSION)) {
         botResponse = chatbotClient.endChatSession(requestConfig,
-            externalSessionId, buildBotRequest(EndSessionReason.USERREQUEST, requestEnvelopeInterceptor));
+            externalSessionId,
+            buildBotRequest(EndSessionReason.USERREQUEST, requestEnvelopeInterceptor));
       } else {
         botResponse = chatbotClient.sendMessage(requestConfig,
             externalSessionId,

@@ -6,18 +6,18 @@
  */
 package com.salesforce.einsteinbot.twitter.connector.service;
 
-import com.salesforce.einsteinbot.sdk.client.ChatbotClient;
-import com.salesforce.einsteinbot.sdk.client.RequestHeaders;
+import com.salesforce.einsteinbot.sdk.client.SessionManagedChatbotClient;
+import com.salesforce.einsteinbot.sdk.client.model.BotResponse;
+import com.salesforce.einsteinbot.sdk.client.model.BotSendMessageRequest;
+import com.salesforce.einsteinbot.sdk.client.model.ExternalSessionId;
+import com.salesforce.einsteinbot.sdk.client.model.RequestConfig;
 import com.salesforce.einsteinbot.sdk.model.AnyRequestMessage;
-import com.salesforce.einsteinbot.sdk.model.RequestEnvelope;
-import com.salesforce.einsteinbot.sdk.model.ResponseEnvelope;
 import com.salesforce.einsteinbot.twitter.connector.listener.TweetCreateResponseApiCallback;
 import com.salesforce.einsteinbot.twitter.connector.util.MessageTransformer;
 import com.twitter.clientlib.ApiException;
 import com.twitter.clientlib.api.TwitterApi;
 import com.twitter.clientlib.model.CreateTweetRequest;
 import com.twitter.clientlib.model.Tweet;
-import java.util.Arrays;
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +35,7 @@ public class EinsteinBotService {
   private static final Logger logger = LoggerFactory.getLogger(EinsteinBotService.class);
 
   @Autowired
-  private ChatbotClient chatbotClient;
+  private SessionManagedChatbotClient chatbotClient;
 
   @Autowired
   private TwitterApi twitterApi;
@@ -52,14 +52,16 @@ public class EinsteinBotService {
   @Value("${sfdc.einstein.bots.force-config-endpoint}")
   private String forceConfigEndpoint;
 
-  private RequestHeaders requestHeaders;
+  private RequestConfig requestConfig;
 
   private TweetCreateResponseApiCallback tweetCreateResponseApiCallback;
 
   @PostConstruct
   public void setup() {
-    this.requestHeaders = RequestHeaders
-        .builder().orgId(this.orgId)
+    this.requestConfig = RequestConfig.with()
+        .botId(botId)
+        .orgId(orgId)
+        .forceConfigEndpoint(forceConfigEndpoint)
         .build();
     this.tweetCreateResponseApiCallback = new TweetCreateResponseApiCallback();
     logger.info("Setup EinsteinBotService");
@@ -77,24 +79,25 @@ public class EinsteinBotService {
   public void sendMessage(final Tweet tweet) {
     logger.debug("Received tweet with text: {}", tweet.getText());
     // 1. Convert tweet to einstein bot request envelope
+    ExternalSessionId externalSessionId = new ExternalSessionId(tweet.getConversationId());
     AnyRequestMessage message = MessageTransformer.buildChatbotMessage(tweet, this.twitterUserName);
-    RequestEnvelope requestEnvelope = MessageTransformer.buildRequestEnvelope(
-        tweet.getConversationId(), this.botId, this.forceConfigEndpoint,
-        Arrays.asList(message));
-    logger.debug("Converted tweet into Einstein bot request envelope: {}", requestEnvelope);
-    ResponseEnvelope responseEnvelope = null;
+    BotSendMessageRequest sendMessageRequest = MessageTransformer
+        .buildBotSendMessageRequest(message);
+    //TODO logger.debug("Converted tweet into Einstein bot request envelope: {}", requestEnvelope);
+    BotResponse botResponse = null;
     try {
       // 2. Send message to einstein bot
-      responseEnvelope = this.chatbotClient.sendChatbotRequest(requestEnvelope,
-          this.requestHeaders);
-      logger.debug("Received response from Einstein bot: {}", responseEnvelope);
+      botResponse = this.chatbotClient
+          .sendMessage(requestConfig, externalSessionId, sendMessageRequest);
+      logger.debug("Received response from Einstein bot: {}", botResponse);
     } catch (Exception e) {
       logger.error("Error when calling einstein bots", e);
       // If no response from bots then don't respond to tweet
       return;
     }
     // 3. Convert einstein bot response to tweet
-    CreateTweetRequest tweetRequest = MessageTransformer.buildTweetRequest(responseEnvelope, tweet);
+    CreateTweetRequest tweetRequest = MessageTransformer
+        .buildTweetRequest(botResponse.getResponseEnvelope(), tweet);
     logger.debug("Converted Einstein response to tweet request: {}", tweetRequest);
     // 4. Reply to tweet
     try {
@@ -104,5 +107,4 @@ public class EinsteinBotService {
           e.getResponseBody());
     }
   }
-
 }
