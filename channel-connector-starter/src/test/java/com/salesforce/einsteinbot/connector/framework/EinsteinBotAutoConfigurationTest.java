@@ -22,6 +22,8 @@ import com.salesforce.einsteinbot.sdk.auth.AuthMechanism;
 import com.salesforce.einsteinbot.sdk.auth.JwtBearerOAuth;
 import com.salesforce.einsteinbot.sdk.cache.Cache;
 import com.salesforce.einsteinbot.sdk.cache.RedisCache;
+import com.salesforce.einsteinbot.sdk.client.BasicChatbotClient;
+import com.salesforce.einsteinbot.sdk.client.SessionManagedChatbotClient;
 import com.salesforce.einsteinbot.sdk.client.ChatbotClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +47,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class EinsteinBotAutoConfigurationTest {
 
   @Autowired
-  private ChatbotClient chatbotClient;
+  private BasicChatbotClient basicChatbotClient;
+
+  @Autowired
+  private SessionManagedChatbotClient sessionManagedChatbotClient;
 
   @Autowired
   private Cache cache;
@@ -55,9 +60,9 @@ public class EinsteinBotAutoConfigurationTest {
 
   @Test
   public void testChatbotClientAutowiring() {
-    assertNotNull(chatbotClient);
+    assertNotNull(basicChatbotClient);
+    assertNotNull(sessionManagedChatbotClient);
     assertTrue(cache instanceof RedisCache);
     assertTrue(auth instanceof JwtBearerOAuth);
   }
-
 }

@@ -7,25 +7,26 @@
 
 package com.salesforce.einsteinbot.connector.example;
 
+import static com.salesforce.einsteinbot.connector.example.util.RequestMessageFactory.buildBotRequest;
 import static com.salesforce.einsteinbot.connector.example.util.RequestMessageFactory.buildChoiceMessage;
-import static com.salesforce.einsteinbot.connector.example.util.RequestMessageFactory.buildEndSessionMessage;
-import static com.salesforce.einsteinbot.connector.example.util.RequestMessageFactory.buildRequestEnvelop;
-import static com.salesforce.einsteinbot.connector.example.util.RequestMessageFactory.buildTextMessage;
 import static com.salesforce.einsteinbot.connector.example.util.RequestMessageFactory.buildTransferFailedMessage;
 import static com.salesforce.einsteinbot.connector.example.util.RequestMessageFactory.buildTransferSuccessMessage;
 import static com.salesforce.einsteinbot.connector.example.util.UtilFunctions.convertStackTraceToErrorResponse;
+import static com.salesforce.einsteinbot.sdk.client.util.RequestFactory.buildTextMessage;
 
 import com.salesforce.einsteinbot.connector.example.model.RequestMessageType;
 import com.salesforce.einsteinbot.connector.example.model.TesterRequest;
 import com.salesforce.einsteinbot.connector.example.model.TesterResults;
 import com.salesforce.einsteinbot.connector.framework.BotsHealthIndicator;
-import com.salesforce.einsteinbot.sdk.client.ChatbotClient;
-import com.salesforce.einsteinbot.sdk.client.RequestHeaders;
+import com.salesforce.einsteinbot.sdk.client.SessionManagedChatbotClient;
+import com.salesforce.einsteinbot.sdk.client.model.BotResponse;
+import com.salesforce.einsteinbot.sdk.client.model.ExternalSessionId;
+import com.salesforce.einsteinbot.sdk.client.model.RequestConfig;
+import com.salesforce.einsteinbot.sdk.client.util.RequestEnvelopeInterceptor;
 import com.salesforce.einsteinbot.sdk.model.AnyRequestMessage;
-import com.salesforce.einsteinbot.sdk.model.RequestEnvelope;
-import com.salesforce.einsteinbot.sdk.model.ResponseEnvelope;
-import java.util.Arrays;
+import com.salesforce.einsteinbot.sdk.model.EndSessionReason;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,9 +43,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * EinsteinBotController - Example controller to test various Chatbot request messages.
- *
- * TODO: This Controller not authenticated and it is provided only to easily test during development.
- * Please remove it before deploying to production.
+ * <p>
+ * TODO: This Controller not authenticated and it is provided only to easily test during
+ * development. Please remove it before deploying to production.
  */
 @Controller
 @RequestMapping("bot")
@@ -56,7 +57,7 @@ public class EinsteinBotController {
   private BotsHealthIndicator health;
 
   @Autowired
-  private ChatbotClient chatbotClient;
+  private SessionManagedChatbotClient chatbotClient;
 
   @Value("${sfdc.einstein.bots.force-config-endpoint}")
   private String forceConfigEndpoint;
@@ -67,12 +68,15 @@ public class EinsteinBotController {
   @Value("${sfdc.einstein.bots.botId:}")
   private String botId;
 
-  private RequestHeaders requestHeaders;
+  private RequestConfig requestConfig;
 
   @PostConstruct
   private void initialize() {
-    requestHeaders = RequestHeaders
-        .builder().orgId(orgId)
+    requestConfig = RequestConfig
+        .with()
+        .botId(botId)
+        .orgId(orgId)
+        .forceConfigEndpoint(forceConfigEndpoint)
         .build();
   }
 
@@ -101,19 +105,30 @@ public class EinsteinBotController {
 
     AnyRequestMessage message = buildRequestMessage(testerRequest);
     String sessionId = getOrCreateSessionId(testerRequest.getSessionId());
-
-    RequestEnvelope requestEnvelop = buildRequestEnvelop(sessionId,
-        testerRequest.getBotId(), forceConfigEndpoint, Arrays.asList(message));
+    ExternalSessionId externalSessionId = new ExternalSessionId(sessionId);
+    AtomicReference<Object> requestData = new AtomicReference<>();
+    RequestEnvelopeInterceptor requestEnvelopeInterceptor =
+        (requestEnvelope) -> requestData.set(requestEnvelope);
 
     TesterResults results;
     try {
-      ResponseEnvelope responseEnvelope = chatbotClient
-          .sendChatbotRequest(requestEnvelop, requestHeaders);
-      results = TesterResults.forSuccess(sessionId, requestEnvelop, responseEnvelope);
+
+      BotResponse botResponse;
+      if (testerRequest.getMessageType().equals(RequestMessageType.END_SESSION)) {
+        botResponse = chatbotClient.endChatSession(requestConfig,
+            externalSessionId,
+            buildBotRequest(EndSessionReason.USERREQUEST, requestEnvelopeInterceptor));
+      } else {
+        botResponse = chatbotClient.sendMessage(requestConfig,
+            externalSessionId,
+            buildBotRequest(message, requestEnvelopeInterceptor));
+      }
+      results = TesterResults.forSuccess(sessionId, requestData.get(), botResponse);
+
     } catch (Exception e) {
       logger.error("Exception occurred ", e);
       results = TesterResults
-          .forError(sessionId, requestEnvelop, convertStackTraceToErrorResponse(e));
+          .forError(sessionId, requestData.get(), convertStackTraceToErrorResponse(e));
     }
     model.addAttribute("testerResults", results);
 
@@ -134,8 +149,6 @@ public class EinsteinBotController {
       case CHOICE_ID:
       case CHOICE_INDEX:
         return buildChoiceMessage(messageType, testerRequest.getMessage());
-      case END_SESSION:
-        return buildEndSessionMessage();
       case TRANSFER_SUCCESS:
         return buildTransferSuccessMessage();
       case TRANSFER_FAILURE:

@@ -13,7 +13,7 @@ import com.salesforce.einsteinbot.sdk.cache.Cache;
 import com.salesforce.einsteinbot.sdk.cache.InMemoryCache;
 import com.salesforce.einsteinbot.sdk.cache.RedisCache;
 import com.salesforce.einsteinbot.sdk.client.BasicChatbotClient;
-import com.salesforce.einsteinbot.sdk.client.ChatbotClient;
+import com.salesforce.einsteinbot.sdk.client.ChatbotClients;
 import com.salesforce.einsteinbot.sdk.client.SessionManagedChatbotClient;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,13 +68,22 @@ public class EinsteinBotAutoConfiguration {
 
   @Bean
   @ConditionalOnMissingBean
-  public ChatbotClient getChatbotClient(AuthMechanism auth,
-      WebClient.Builder wcBuilder, Cache cache) {
-    return SessionManagedChatbotClient.builder().basicClient(BasicChatbotClient.builder()
+  public BasicChatbotClient getChatbotClient(AuthMechanism auth,
+      WebClient.Builder wcBuilder) {
+
+    return ChatbotClients.basic()
         .basePath(einsteinBotConfiguration.getRuntimeUrl())
         .authMechanism(auth)
-        .webClientBuilder(wcBuilder)
-        .build())
+        .webClientBuilder(wcBuilder).build();
+
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  public SessionManagedChatbotClient getSessionManagedChatbotClient(BasicChatbotClient basicChatbotClient, Cache cache) {
+
+    return ChatbotClients.sessionManaged()
+        .basicClient(basicChatbotClient)
         .cache(cache)
         .integrationName(einsteinBotConfiguration.getIntegrationName())
         .build();
