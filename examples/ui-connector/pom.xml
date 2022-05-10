@@ -18,7 +18,7 @@
 
   <groupId>com.salesforce.einsteinbot</groupId>
   <artifactId>einstein-bot-channel-connector-example</artifactId>
-  <version>2.0.0</version>
+  <version>2.0.1-SNAPSHOT</version>
   <name>einstein-bot-channel-connector-example</name>
   <description>Example application to built using Channel Connector Starter to demonstrate the usage.</description>
   <url>https://github.com/forcedotcom/einstein-bot-channel-connector</url>
@@ -28,7 +28,7 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <bootstrap.version>4.2.1</bootstrap.version>
-    <channel-connector-java-starter.version>2.0.0
+    <channel-connector-java-starter.version>2.0.1-SNAPSHOT
     </channel-connector-java-starter.version>
     <micrometer-registry-new-relic.version>0.8.0</micrometer-registry-new-relic.version>
     <salesforce-lightning-design-system.version>2.13.3</salesforce-lightning-design-system.version>
@@ -75,7 +75,7 @@
 
 
   <scm>
-    <tag>v2.0.0</tag>
+    <tag>HEAD</tag>
     <connection>scm:git:https://github.com/forcedotcom/einstein-bot-channel-connector.git</connection>
     <developerConnection>scm:git:https://github.com/forcedotcom/einstein-bot-channel-connector.git</developerConnection>
     <url>https://github.com/forcedotcom/einstein-bot-channel-connector</url>
