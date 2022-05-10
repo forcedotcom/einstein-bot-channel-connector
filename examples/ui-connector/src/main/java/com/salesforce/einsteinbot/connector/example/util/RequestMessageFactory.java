@@ -8,12 +8,16 @@
 package com.salesforce.einsteinbot.connector.example.util;
 
 import com.salesforce.einsteinbot.connector.example.model.RequestMessageType;
+import com.salesforce.einsteinbot.sdk.client.model.BotEndSessionRequest;
+import com.salesforce.einsteinbot.sdk.client.model.BotRequest;
+import com.salesforce.einsteinbot.sdk.client.model.BotSendMessageRequest;
+import com.salesforce.einsteinbot.sdk.client.util.RequestEnvelopeInterceptor;
+import com.salesforce.einsteinbot.sdk.client.util.RequestFactory;
 import com.salesforce.einsteinbot.sdk.model.AnyRequestMessage;
 import com.salesforce.einsteinbot.sdk.model.ChoiceMessage;
 import com.salesforce.einsteinbot.sdk.model.EndSessionMessage;
+import com.salesforce.einsteinbot.sdk.model.EndSessionReason;
 import com.salesforce.einsteinbot.sdk.model.ForceConfig;
-import com.salesforce.einsteinbot.sdk.model.InitMessage;
-import com.salesforce.einsteinbot.sdk.model.RequestEnvelope;
 import com.salesforce.einsteinbot.sdk.model.TextMessage;
 import com.salesforce.einsteinbot.sdk.model.TransferFailedRequestMessage;
 import com.salesforce.einsteinbot.sdk.model.TransferSucceededRequestMessage;
@@ -27,36 +31,17 @@ import java.util.Optional;
  */
 public class RequestMessageFactory {
 
-  public static RequestEnvelope buildRequestEnvelop(String sessionId,
-      String botId,
-      String forceConfigEndPoint,
-      List<AnyRequestMessage> messages) {
-    return new RequestEnvelope()
-        .externalSessionKey(sessionId)
-        .botId(botId)
-        .forceConfig(new ForceConfig().endpoint(forceConfigEndPoint))
-        .messages(messages);
+  public static BotSendMessageRequest buildBotRequest(AnyRequestMessage message, RequestEnvelopeInterceptor requestEnvelopeInterceptor) {
+    return BotRequest.withMessage(message)
+        .requestEnvelopeInterceptor(requestEnvelopeInterceptor)
+        .build();
   }
 
-  public static AnyRequestMessage buildInitMessage(Optional<String> msg) {
-    return new InitMessage()
-        .text(msg.orElse(""))
-        .type(InitMessage.TypeEnum.INIT)
-        .sequenceId(System.currentTimeMillis());
-  }
-
-  public static AnyRequestMessage buildTextMessage(String msg) {
-    return new TextMessage()
-        .text(msg)
-        .type(TextMessage.TypeEnum.TEXT)
-        .sequenceId(System.currentTimeMillis());
-  }
-
-  public static AnyRequestMessage buildEndSessionMessage() {
-    return new EndSessionMessage()
-        .type(EndSessionMessage.TypeEnum.ENDSESSION)
-        .reason(EndSessionMessage.ReasonEnum.USERREQUEST)
-        .sequenceId(System.currentTimeMillis());
+  public static BotEndSessionRequest buildBotRequest(EndSessionReason endSessionReason, RequestEnvelopeInterceptor requestEnvelopeInterceptor) {
+    return  BotRequest
+        .withEndSession(endSessionReason)
+        .requestEnvelopeInterceptor(requestEnvelopeInterceptor)
+        .build();
   }
 
   public static AnyRequestMessage buildTransferSuccessMessage() {

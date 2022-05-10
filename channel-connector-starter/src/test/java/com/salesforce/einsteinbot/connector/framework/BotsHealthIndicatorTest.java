@@ -10,6 +10,7 @@ package com.salesforce.einsteinbot.connector.framework;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+import com.salesforce.einsteinbot.sdk.client.BasicChatbotClient;
 import com.salesforce.einsteinbot.sdk.client.ChatbotClient;
 import com.salesforce.einsteinbot.sdk.model.Status;
 import com.salesforce.einsteinbot.sdk.model.Status.StatusEnum;
@@ -24,7 +25,7 @@ import org.springframework.boot.actuate.health.Health;
 public class BotsHealthIndicatorTest {
 
   @Mock
-  private ChatbotClient chatbotClient;
+  private BasicChatbotClient chatbotClient;
 
   private BotsHealthIndicator botsHealthIndicator = new BotsHealthIndicator();
 

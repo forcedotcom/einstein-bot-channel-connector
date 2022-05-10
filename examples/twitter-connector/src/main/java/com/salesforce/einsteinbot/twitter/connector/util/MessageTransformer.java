@@ -6,13 +6,14 @@
  */
 package com.salesforce.einsteinbot.twitter.connector.util;
 
+import com.salesforce.einsteinbot.sdk.client.model.BotRequest;
+import com.salesforce.einsteinbot.sdk.client.model.BotSendMessageRequest;
+import com.salesforce.einsteinbot.sdk.client.util.RequestEnvelopeInterceptor;
 import com.salesforce.einsteinbot.sdk.model.AnyRequestMessage;
 import com.salesforce.einsteinbot.sdk.model.AnyResponseMessage;
 import com.salesforce.einsteinbot.sdk.model.ChoicesResponseMessage;
 import com.salesforce.einsteinbot.sdk.model.ChoicesResponseMessageChoices;
 import com.salesforce.einsteinbot.sdk.model.EscalateResponseMessage;
-import com.salesforce.einsteinbot.sdk.model.ForceConfig;
-import com.salesforce.einsteinbot.sdk.model.RequestEnvelope;
 import com.salesforce.einsteinbot.sdk.model.ResponseEnvelope;
 import com.salesforce.einsteinbot.sdk.model.SessionEndedResponseMessage;
 import com.salesforce.einsteinbot.sdk.model.TextMessage;
@@ -20,7 +21,6 @@ import com.salesforce.einsteinbot.sdk.model.TextResponseMessage;
 import com.twitter.clientlib.model.CreateTweetRequest;
 import com.twitter.clientlib.model.CreateTweetRequestReply;
 import com.twitter.clientlib.model.Tweet;
-import java.util.List;
 
 /**
  * RequestMessageFactory - Provides factory methods to build Chatbot Request Messages
@@ -29,15 +29,12 @@ public class MessageTransformer {
 
   public static final String NEW_LINE = "\n";
 
-  public static RequestEnvelope buildRequestEnvelope(String externalSessionId,
-      String botId,
-      String forceConfigEndPoint,
-      List<AnyRequestMessage> messages) {
-    return new RequestEnvelope()
-        .externalSessionKey(externalSessionId)
-        .botId(botId)
-        .forceConfig(new ForceConfig().endpoint(forceConfigEndPoint))
-        .messages(messages);
+  public static BotSendMessageRequest buildBotSendMessageRequest(AnyRequestMessage message,
+      RequestEnvelopeInterceptor requestEnvelopeInterceptor) {
+    return BotRequest
+        .withMessage(message)
+        .requestEnvelopeInterceptor(requestEnvelopeInterceptor)
+        .build();
   }
 
   public static AnyRequestMessage buildChatbotMessage(final Tweet tweet,

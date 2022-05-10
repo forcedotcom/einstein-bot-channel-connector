@@ -8,12 +8,7 @@
 package com.salesforce.einsteinbot.connector.example.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.util.DefaultIndenter;
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.salesforce.einsteinbot.connector.example.model.ErrorResult;
-import com.salesforce.einsteinbot.sdk.client.ClientBuilderUtil;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -21,15 +16,6 @@ import java.io.StringWriter;
  * UtilFunctions - Contains static utility functions.
  */
 public class UtilFunctions {
-
-  private static final ObjectMapper mapper = ClientBuilderUtil.getMapper();
-  private static final DefaultPrettyPrinter prettyPrinter = new DefaultPrettyPrinter();
-
-
-  static {
-    mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-    prettyPrinter.indentArraysWith(DefaultIndenter.SYSTEM_LINEFEED_INSTANCE);
-  }
 
   public static ErrorResult convertStackTraceToErrorResponse(Exception e) {
     StringWriter sw = new StringWriter();
@@ -42,7 +28,7 @@ public class UtilFunctions {
 
   public static Object convertObjectToJson(Object data) {
     try {
-      return mapper.writer(prettyPrinter).writeValueAsString(data);
+      return com.salesforce.einsteinbot.sdk.util.UtilFunctions.convertObjectToJson(data);
     } catch (JsonProcessingException e) {
       return convertStackTraceToErrorResponse(e);
     }
