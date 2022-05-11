@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Salesforce Channel Connector Application</title>
+
+    <!-- SLDS CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{../webjars/salesforce-lightning-design-system/2.13.3/styles/salesforce-lightning-design-system.css}" />
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+
+</head>
+
+<body>
+
+<header class="slds-global-header_container">
+    <div class="slds-global-header">
+        <h1 class="slds-global-header__item slds-text-heading_large slds-text-color--inverse slds-p-left--large">Salesforce Channel Connector Application</h1>
+    </div>
+</header>
+
+<main role="main" class="slds-container_center">
+
+    <div class="slds-grid slds-wrap slds-grid_align-center slds-m-around--large">
+        <div class="slds-col slds-size_4-of-12">
+            <div class="slds-card">
+                <div class="slds-card__header slds-grid slds-p-bottom_x-small slds-theme_success">
+                    Test Input
+                </div>
+                <form action="#" class="slds-card__body slds-card__body_inner" th:action="@{/bot/runTest}" method="post" th:object="${testerRequest} ">
+                <div class="slds-form">
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <legend class="slds-form-element__legend slds-form-element__label" for="orgId">Org Id</legend>
+                        <div class="slds-form-element__control">
+                            <input type="text" id="orgId" placeholder="Salesforce Organization Id" class="slds-input" th:field="*{orgId}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form">
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <legend class="slds-form-element__legend slds-form-element__label" for="botId">Bot Id</legend>
+                        <div class="slds-form-element__control">
+                            <input type="text" id="botId" placeholder="Bot Id" class="slds-input" th:field="*{botId}"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-form">
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <legend class="slds-form-element__legend slds-form-element__label" for="sessionId">Session Id</legend>
+                        <div class="slds-form-element__control">
+                            <input type="text" id="sessionId" placeholder="Existing Session Id to continue session OR blank to start new session" class="slds-input" th:field="*{sessionId}"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-form">
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <legend class="slds-form-element__legend slds-form-element__label">Request Message Type</legend>
+                        <div class="slds-form-element__control">
+                            <span class="slds-radio" th:each="messageType : ${T(com.salesforce.connector.chatbot.model.RequestMessageType).values()}">
+                                <input type="radio" th:field="*{messageType}" th:value="${messageType}">
+                                <label class="slds-radio__label" th:for="${#ids.prev('messageType')}">
+                                    <span class="slds-radio_faux"></span>
+                                    <span class="slds-form-element__label" th:text="${messageType.displayName}"></span>
+                                </label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-form">
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <legend class="slds-form-element__legend slds-form-element__label" for="message">Message</legend>
+                        <div class="slds-form-element__control">
+                            <input type="text" id="message" placeholder="Request Message to User. Can be Text Message OR Choice Id OR Choice Index" class="slds-input" th:field="*{message}"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-form">
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <label class="slds-form-element__label" ></label>
+                        <div class="slds-form-element__control">
+                            <button type="submit" class="slds-button slds-button_success">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div th:if="${testerResults != null}">
+        <div class="">
+            <div class="slds-grid slds-wrap slds-gutters slds-grid_align-center slds-m-around--xx-large">
+                    <div class="slds-col slds-size_1-of-1 slds-m-bottom--x-large">
+                        <article class="slds-card">
+                            <div class="slds-card__header slds-grid slds-p-bottom_x-small" th:classappend="
+                ${testerResults.status == 'SUCCESS' ? 'slds-theme_success' : 'slds-theme_error'}">
+                                Test Results
+                            </div>
+                            <div class="slds-card__body slds-card__body_inner">
+                                <div class="slds-tile__detail">
+                                    <dl class="slds-list_horizontal slds-wrap">
+                                        <dt class="slds-item_label slds-text-color_weak slds-truncate">Session Id:</dt>
+                                        <dd class="slds-item_detail slds-truncate" th:text="${testerResults.sessionId}"></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            <div class="slds-card__body slds-card__body_inner">
+                                <div class="slds-tile__detail">
+                                    <dl class="slds-list_horizontal slds-wrap">
+                                        <dt class="slds-item_label slds-text-color_weak slds-truncate">Status: </dt>
+                                        <dd class="slds-item_detail slds-truncate" th:text="${testerResults.status}"></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <article class="slds-card">
+                            <div class="slds-card__header slds-grid slds-p-bottom_x-small slds-theme_info">
+                                Request Payload
+                            </div>
+                            <div class="slds-card__body slds-card__body_inner"> <pre><code><div th:text="${testerResults.request}" ></div></code></pre></div>
+                        </article>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <article class="slds-card">
+                            <div class="slds-card__header slds-grid slds-p-bottom_x-small slds-theme_info">
+                                Response Payload
+                            </div>
+                            <div class="slds-card__body slds-card__body_inner"> <pre class="slds-wrap"><code class="slds-wrap" ><div class="slds-wrap" th:text="${testerResults.response}" ></div></code></pre></div>
+                        </article>
+                    </div>
+        </div>
+        </div>
+    </div>
+
+</main>
+<!-- /.container -->
+
+<script type="text/javascript" th:src="@{../webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Salesforce Channel Connector Application</title>
+
+    <!-- SLDS CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{../webjars/salesforce-lightning-design-system/2.13.3/styles/salesforce-lightning-design-system.css}" />
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+
+</head>
+
+<header class="slds-global-header_container">
+    <div class="slds-global-header">
+        <h1 class="slds-global-header__item slds-text-heading_large slds-text-color--inverse slds-p-left--large">Salesforce Channel Connector Application</h1>
+    </div>
+</header>
+<body>
+<article class="slds-grid slds-wrap slds-m-around--large">
+    <div class="slds-col slds-size_2-of-12">
+        <div class="slds-card slds-m-around--x-large">
+            <a href="/bot/tester" class="slds-card__header slds-grid slds-p-bottom_x-small slds-theme_shade ">
+                Bot Tester
+            </a>
+            <div class="slds-card__body slds-card__body_inner">Test various chatbot request and responses.</div>
+        </div>
+    </div>
+    <div class="slds-col slds-size_2-of-12">
+        <div class="slds-card slds-m-around--x-large">
+            <a href="/actuator/metrics" class="slds-card__header slds-grid slds-p-bottom_x-small slds-theme_shade ">
+                Metrics
+            </a>
+            <div class="slds-card__body slds-card__body_inner"> View Metrics </div>
+        </div>
+    </div>
+    <div class="slds-col slds-size_2-of-12">
+        <div class="slds-card slds-m-around--x-large">
+            <a href="/actuator/health" class="slds-card__header slds-grid slds-p-bottom_x-small slds-theme_shade ">
+                Health
+            </a>
+            <div class="slds-card__body slds-card__body_inner"> View Health </div>
+        </div>
+    </div>
+</article>
+
+</body>
+</html>
