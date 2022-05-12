@@ -39,7 +39,7 @@ The **minor** and **patch** versions will be incremented for minor features and 
 
 The **major** version will be incremented for
 * Major changes made to Channel Connector OR
-* SDK is upgraded to new version to support new Runtime API version.
+* SDK dependency is upgraded to new version to support new Runtime API version.
 
 Here is the Channel connector version and corresponding Runtime API version supported by it.
 
