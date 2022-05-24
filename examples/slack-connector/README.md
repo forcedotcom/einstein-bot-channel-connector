@@ -11,22 +11,18 @@ Before we get started on the setup, the following tooling is necessary
  1. Heroku CLI
     
     The Heroku CLI provides the best Heroku Developer experience.
+
     To install it, run the following command:
+
     ```brew tap heroku/brew && brew install heroku```
  2. Slack Workspace
  
     You will need to have a workspace where you can set up the Slack Application.
+
     This will involve getting in touch with your Slack Admin to provide you with developer access to a workspace where you can install a Slack Application.
     
-    NOTE: For Salesforce Internal customers, The ```Salesforce Internal``` Workspace is locked down and only available to admins.
-    You will need to instead use the Sandbox Slack to get your application set up, working and tested before you can request it to be moved to ```Salesforce Internal``` workspace.
-    To set this up, 
-    - go to [Aloha](https://aloha.my.salesforce.com)
-    - make sure you have TMP Auth
-    - go to the ```Sandbox Slack``` Tile and select the ```Internal Sanbox``` workspace
-    - once you are in, create a slack channel that you will add your bot to during the installation. You can add the bot to any number of channels later but it needs one fixed channel to be added to during installation.
- 
  3. Einstein Bot
+
     This document does not cover how to set up an Einstein Bot so make sure you have a bot ready to plug in to slack
     
     
@@ -125,13 +121,14 @@ This Section will cover the setup needed in Einstein Bots to enable the code in 
 
 The desired means of achieving this will be to setup another OAuth token and secret.
 
-* Instructions to set up OAuth in Einstein bots is detailed in [this Quip Document](https://salesforce.quip.com/GcjGAE2wwBKb)
-* [Create a Connected App to Access Einstein Bot APIs](https://developer.salesforce.com/docs/service/einstein-bot-api/guide/prerequisites.html#step-1:-create-a-connected-app)
+Configure following properties in `application.properties` to properly connect with Einstein bot. 
 
-```NOTE: Follow the steps only until you are able to obatin a bearer token. The subsequent steps are already implemented in this code.```
+This connector is setup to work with only one Einstein bot.
 
-The einstein bots part of this app was set up using the [connector framework](https://git.soma.salesforce.com/chatbots/module-slack-connector-sdk).
-The repo itself was created using a [Maven Archetype](https://git.soma.salesforce.com/relango/module-channel-connector-archetype)
+1. `sfdc.einstein.bots.force-config-endpoint`: Salesforce instance endpoint. This can be obtained from connections screen in bots setup page. Please refer to developer [documentation](https://developer.salesforce.com/docs/service/einstein-bot-api/guide/prerequisites.html)
+2. `sfdc.einstein.bots.orgId`: Salesforce OrgId (18 chars)
+3. `sfdc.einstein.bots.botId`: Salesforce bot ID. Refer to this [documentation](https://developer.salesforce.com/docs/service/einstein-bot-api/guide/get-started.html#begin-a-new-session) on how to get this ID.
+   Other properties related to connected app should be configured as explained [here](https://github.com/forcedotcom/einstein-bot-channel-connector/tree/master/channel-connector-starter#configure-your-application).
 
 
 ### Heroku App Setup
@@ -143,10 +140,9 @@ This section will cover how to deploy the code in this repository to Heroku.
 - Run the following command to convert it into a format that is accepted by the Java code ```openssl x509 -outform der -in server.key -out private_key.der```
 - Go into the cloned directory ```cd slack-demo-bot```
 - Create a Heroku app (requires Heroku CLI) ```heroku create```
-- Open the pom.xml and at the bottom update the app name under ```<appName>glacial-dawn-73028</appName>``` with the app name that was just created.
+- Open the pom.xml and at the bottom update the app name under ```<appName>YOUR-APP-NAME-HERE</appName>``` with the app name that was just created.
 - Send the app to Heroku ```mvn clean heroku:deploy```
 - Go to [Heroku dashboard](https://dashboard.heroku.com)
-- Switch account by clicking on ```Personal``` choose ```sfdc-aloha``` which is most likely where the app is created
 - Find your app (you can mark it as favorite so it's easier to find in the future)
 - Switch to the ```Settings``` tab
 - Click on ```Reveal Config Vars```
@@ -170,21 +166,12 @@ This section will cover how to deploy the code in this repository to Heroku.
 | SFDC_USER_ID  	| The user ID for the login that will be used to obtain oauth tokens (should be the user that created the connected app in Salesforce)	                                                                                                                                                                                     |   pprem@salesforce.com	|
 | CACHE_TTL_SECS  	| Time to keep data alive in Cache	                                                                                                                                                                                                                                                                                         |   259140	|
 
-Once all these vars are set up, make sure you change the URLs in the slack manifest to point to your heroku app and you are good to go and you can test by sending a message in slack to the bot!
+Once all these vars are set up, make sure you change the URLs in the slack manifest to point to your heroku app and you are good to go.
 
-There is a Makefile in the repo that can help with some commands.
+You can test by sending a message in slack to the bot!
 
 ### NOTE
 
-None of the keys mentioned anywhere in this repo work. They are just there as an example
+None of the keys mentioned anywhere in this repo work. They are just samples with the correct number of characters
 
-## Appendix
-
-### Publishing metrics
-
-This app includes [NewRelicMetricsExportAutoConfiguration](example/src/main/java/com/salesforce/chatbot/connector/example/NewRelicMetricsExportAutoConfiguration.java) to setup publishing metrics to New Relic. To enable add these properties to application.
-
-```properties
-management.metrics.export.newrelic.api-key = ${NEW_RELIC_API_KEY}
-management.metrics.export.newrelic.enabled = true
-```
+There is a Makefile in this repo that can help with some commands.

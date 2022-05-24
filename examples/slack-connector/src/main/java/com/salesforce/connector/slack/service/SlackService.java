@@ -9,6 +9,7 @@ import com.salesforce.einsteinbot.sdk.model.ResponseEnvelope;
 import com.salesforce.einsteinbot.sdk.model.SessionEndedResponseMessage;
 import com.salesforce.einsteinbot.sdk.model.TextResponseMessage;
 import com.google.common.base.Preconditions;
+import com.slack.api.methods.SlackApiException;
 import com.slack.api.model.block.composition.OptionObject;
 import com.slack.api.model.block.element.BlockElement;
 import com.salesforce.connector.slack.Constants;
@@ -19,6 +20,7 @@ import com.slack.api.model.block.LayoutBlock;
 import com.slack.api.model.block.composition.PlainTextObject;
 import com.slack.api.model.block.element.ButtonElement;
 import com.slack.api.model.block.element.StaticSelectElement;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -77,6 +79,54 @@ public class SlackService {
     return response.trim();
   }
 
+  private void processTextResponse(AnyResponseMessage message, Context ctx, String user,
+      String channel, String threadTs ) throws SlackApiException, IOException {
+    logger.info("MESSAGE: {}", ((TextResponseMessage) message).getText());
+    String response = cleanTextResponse(((TextResponseMessage) message).getText(),
+        user);
+    ctx.client().chatPostMessage(r -> r
+        .channel(channel)
+        .text(response)
+        .threadTs(threadTs)
+        .parse("full")
+        .unfurlLinks(true)
+        .unfurlMedia(true));
+
+  }
+
+  private void processChoiceResponse(AnyResponseMessage message, Context ctx, String channel,
+      String threadTs) throws SlackApiException, IOException {
+    logger.info("MESSAGE: **choice message**");
+    java.util.List<com.slack.api.model.block.LayoutBlock> messageBlocks;
+    if (isFlag(Constants.USE_BUTTONS)) {
+      messageBlocks = createSlackButtonMessage((ChoicesResponseMessage) message);
+    } else {
+      messageBlocks = createSlackStaticSelectMessage((ChoicesResponseMessage) message);
+    }
+    logger.info(messageBlocks.toString());
+    ctx.client().chatPostMessage(r -> r
+        .channel(channel)
+        .blocks(messageBlocks)
+        .threadTs(threadTs));
+
+  }
+
+  public void postSlackErrorMessage(Context ctx, String channel, String threadTs)
+      throws SlackApiException, IOException {
+    ctx.client().chatPostMessage(r -> r
+        .channel(channel)
+        .text(Constants.ERROR_MESSAGE_SLACK)
+        .threadTs(threadTs));
+  }
+
+  private void postBotErrorMessage(Context ctx, String channel, String threadTs)
+      throws SlackApiException, IOException {
+    ctx.client().chatPostMessage(r -> r
+        .channel(channel)
+        .text(Constants.ERROR_MESSAGE_BOT)
+        .threadTs(threadTs));
+  }
+
   private void sendToSlack(BotResponse botResponse, Context ctx, String user, String channel,
                            String threadTs, SessionIdProvider sessionIdProvider) {
     logger.info("USER {} " , user);
@@ -88,45 +138,29 @@ public class SlackService {
      * to an appropriate Slack message.
      */
     try{
-      ResponseEnvelope resp = botResponse.getResponseEnvelope();
-      for (AnyResponseMessage message : resp.getMessages()) {
-        if (message instanceof TextResponseMessage) {
-          logger.info("MESSAGE: {}" , ((TextResponseMessage) message).getText());
-          String response = cleanTextResponse(((TextResponseMessage) message).getText(),
-              user);
-          ctx.client().chatPostMessage(r -> r
-                .channel(channel)
-                .text(response)
-                .threadTs(threadTs)
-                .parse("full")
-                .unfurlLinks(true)
-                .unfurlMedia(true));
-        } else if (message instanceof ChoicesResponseMessage) {
-          logger.info("MESSAGE: **choice message**");
-          java.util.List<com.slack.api.model.block.LayoutBlock> messageBlocks;
-          if (isFlag(Constants.USE_BUTTONS)){
-            messageBlocks = createSlackButtonMessage((ChoicesResponseMessage) message);
-          } else {
-            messageBlocks = createSlackStaticSelectMessage((ChoicesResponseMessage) message);
+      if(botResponse != null) {
+        ResponseEnvelope resp = botResponse.getResponseEnvelope();
+        for (AnyResponseMessage message : resp.getMessages()) {
+          if (message instanceof TextResponseMessage) {
+            processTextResponse(message, ctx, user, channel, threadTs);
+          } else if (message instanceof ChoicesResponseMessage) {
+            processChoiceResponse(message, ctx, channel, threadTs);
+          } else if (message instanceof SessionEndedResponseMessage) {
+            sessionIdProvider.newSessionId(user);
           }
-          logger.info(messageBlocks.toString());
-          ctx.client().chatPostMessage(r -> r
-                .channel(channel)
-                .blocks(messageBlocks)
-                .threadTs(threadTs));
-        } else if (message instanceof SessionEndedResponseMessage){
-          sessionIdProvider.newSessionId(user);
         }
+      } else {
+        postBotErrorMessage(ctx, channel, threadTs);
       }
-    } catch (Exception e) {
-      logger.error("Exception occurred ", e);
+    } catch (Exception exception) {
+      logger.error("Encountered Exception sending request to slack from Heroku", exception);
     }
   }
 
   public void process(App app, String requestText, SessionIdProvider sessionIdProvider, Context ctx, String user,
                       String channel, String threadTs){
     app.executorService().execute(() -> {
-       BotResponse botsResponse = this.chatbotService.send(requestText,
+       BotResponse botsResponse = this.chatbotService.sendToBots(requestText,
            sessionIdProvider.getSessionId(user));
        this.sendToSlack(botsResponse, ctx, user, channel, threadTs, sessionIdProvider);
     });

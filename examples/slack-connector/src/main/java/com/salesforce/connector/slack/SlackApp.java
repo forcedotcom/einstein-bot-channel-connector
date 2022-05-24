@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022, salesforce.com, inc.
+ * All rights reserved.
+ * SPDX-License-Identifier: BSD-3-Clause
+ * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+ */
+
 package com.salesforce.connector.slack;
 
 import com.salesforce.connector.chatbot.service.SessionIdProvider;
@@ -42,26 +49,24 @@ public class SlackApp {
     String channel = req.getPayload().getChannel().getId();
     String threadTs = req.getPayload().getMessage().getThreadTs();
 
-    if (isButton){
-      requestText = req.getPayload().getActions().get(0).getValue();
+    if(req.getPayload().getActions().isEmpty()){
+      slackService.postSlackErrorMessage(ctx, channel, threadTs);
     }else {
-      requestText = req.getPayload().getActions().get(0).getSelectedOption().getValue();
+      if (isButton){
+        requestText = req.getPayload().getActions().get(0).getValue();
+      }else {
+        requestText = req.getPayload().getActions().get(0).getSelectedOption().getValue();
+      }
+
+      if(slackService.isReplyInThreadChannel(channel) && threadTs==null){
+        threadTs = req.getPayload().getMessage().getTs();
+      }
+
+      logger.info("Full selection payload {}", req.getPayload().getActions().get(0).toString());
+      logger.info("Request Text {}", requestText);
+      slackService.process(app, requestText, this.sessionIdProvider, ctx, user, channel, threadTs);
     }
 
-    if(slackService.isReplyInThreadChannel(channel) && threadTs==null){
-      threadTs = req.getPayload().getMessage().getTs();
-    }
-
-    logger.info("Full selection payload {}", req.getPayload().getActions().get(0).toString());
-    logger.info("Request Text {}", requestText);
-    //    Post who clicked on what button.
-    //    String finalThreadTs = threadTs;
-    //    ctx.client().chatPostMessage(r -> r
-    //        .channel(channel)
-    //        .threadTs(finalThreadTs)
-    //        .text("<@" + user + "> clicked on " + requestText));
-
-    slackService.process(app, requestText, this.sessionIdProvider, ctx, user, channel, threadTs);
   }
 
 

@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2022, salesforce.com, inc.
+  ~ All rights reserved.
+  ~ SPDX-License-Identifier: BSD-3-Clause
+  ~ For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+-->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
@@ -53,20 +60,6 @@
       <artifactId>einstein-bot-channel-connector-java-starter</artifactId>
       <version>2.0.1</version>
     </dependency>
-    <dependency>
-      <groupId>com.newrelic.telemetry</groupId>
-      <artifactId>micrometer-registry-new-relic</artifactId>
-      <version>0.8.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-thymeleaf</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.webjars</groupId>
-      <artifactId>salesforce-lightning-design-system</artifactId>
-      <version>2.13.3</version>
-    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -83,7 +76,7 @@
           <processTypes>
             <web>java -Dserver.port=$PORT $JAVA_OPTS -cp target/classes:target/dependency/* com.salesforce.connector.Application</web>
           </processTypes>
-          <appName>glacial-dawn-73028</appName>
+          <appName>YOUR-APP-NAME-HERE</appName>
         </configuration>
       </plugin>
     </plugins>

@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2022, salesforce.com, inc.
+ * All rights reserved.
+ * SPDX-License-Identifier: BSD-3-Clause
+ * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+ */
+
 package com.salesforce.connector.chatbot.service;
 
 
@@ -67,14 +74,13 @@ public class ChatbotService {
     logger.info("Setup the request config {}", this.requestConfig);
   }
 
-  public BotResponse send(String message, ExternalSessionId externalSessionKey) {
+  public BotResponse sendToBots(String message, ExternalSessionId externalSessionKey) {
     /*
      Build the message
      */
-    TextMessage textMessage = new TextMessage();
-    textMessage.setText(this.cleanText(message));
-    textMessage.setType(TextMessage.TypeEnum.TEXT);
-    textMessage.setSequenceId(System.currentTimeMillis());
+    TextMessage textMessage = new TextMessage().text(this.cleanText(message))
+        .type(TextMessage.TypeEnum.TEXT)
+        .sequenceId(System.currentTimeMillis());
 
     /*
     Build the request
@@ -84,9 +90,14 @@ public class ChatbotService {
     /*
     Send the message and get a response from bots api
      */
+    BotResponse resp = null;
     logger.info("Request for sessionID {}: {}", externalSessionKey, botSendMessageRequest);
-    BotResponse resp = this.sessionManagedChatbotClient.sendMessage(this.requestConfig,
-        externalSessionKey, botSendMessageRequest);
+    try {
+       resp = this.sessionManagedChatbotClient.sendMessage(this.requestConfig,
+          externalSessionKey, botSendMessageRequest);
+    } catch (Exception exception){
+      logger.error("Encountered Exception sending request to bots from Heroku. ", exception);
+    }
     logger.info("Response for sessionID {} : {}", externalSessionKey, resp);
     return resp;
   }
