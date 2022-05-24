@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>twilio-demo-connector</artifactId>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <version>2.4.1</version>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+
+    <dependency>
+      <artifactId>einstein-bot-channel-connector-java-starter</artifactId>
+      <groupId>com.salesforce.einsteinbot</groupId>
+      <version>2.0.1-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <artifactId>twilio</artifactId>
+      <groupId>com.twilio.sdk</groupId>
+      <version>7.47.2</version>
+    </dependency>
+
+
+  </dependencies>
+  <groupId>com.salesforce.einsteinbot.twilio</groupId>
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>twilio-connector</name>
+
+  <parent>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <groupId>org.springframework.boot</groupId>
+    <version>2.6.6</version> <!-- lookup parent from repository -->
+  </parent>
+
+  <properties>
+    <bootstrap.version>4.2.1</bootstrap.version>
+    <java.version>1.8</java.version>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
+  <version>1.0.0-SNAPSHOT</version>
+
+</project>
