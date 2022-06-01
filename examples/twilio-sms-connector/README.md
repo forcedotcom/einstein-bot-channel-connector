@@ -9,7 +9,7 @@ Before you can run this app, you need to
 * [Create a Connected App to Access Einstein Bot APIs](https://developer.salesforce.com/docs/service/einstein-bot-api/guide/prerequisites.html#step-1:-create-a-connected-app)
 * [Configure an Einstein Bot](https://developer.salesforce.com/docs/service/einstein-bot-api/guide/prerequisites.html#step-2:-configure-an-einstein-bot)
 * Create a Twilio account, claim a phone number, and configure the corresponding webhook to point to your web-service url.
-* Copy [application.example.properties](src/main/resources/application.properties)
+* Copy [application.example.properties](src/main/resources/application.example.properties)
   to `application.properties` and update the placeholder values according to your setup.
 
 ## Einstein Bot setup
