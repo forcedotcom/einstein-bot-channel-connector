@@ -36,15 +36,12 @@ public class TwilioSMSListener {
       @RequestParam("From") String from,
       @RequestParam("Body") String body) {
 
-    logger.info("message received: " + body);
+    logger.debug("sms received: {}" , body);
     String response = "";
 
-    // async handling, send the sms to einsteinBotService and exit
-    //this.einsteinBotService.sendMessage(from,body);
+    this.einsteinBotService.sendMessage(from,body);
 
-    //sync handling, send the sms to einsteinBotService and wait for its response in TWIML format
-    response = this.einsteinBotService.sendMessageSync(from, body);
-
+    // an SMS will be sent out asynchronously when a response is received from the chatbot. For now, return a null response and exit the method.
     return response;
   }
 

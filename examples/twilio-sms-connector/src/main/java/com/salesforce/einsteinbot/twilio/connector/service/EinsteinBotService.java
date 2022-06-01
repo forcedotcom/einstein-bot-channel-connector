@@ -76,9 +76,8 @@ public class EinsteinBotService {
           externalSessionId,
           botRequest);
       Object jsonResponse = convertObjectToJson(botResponse);
-      //logger.debug("JSON: " + jsonResponse);
+      logger.debug("JSON: {}" , jsonResponse);
       response = getTextMessageFromResponseObject(botResponse.getResponseEnvelope());
-      //logger.debug("Final Response: "+response);
 
     } catch (Exception e) {
       logger.error("Exception occurred ", e);
@@ -88,14 +87,14 @@ public class EinsteinBotService {
 
   @Async
   public void sendMessage(String fromPhoneNumber, String sms) {
-    logger.info("Received sms from: {}, async handling", fromPhoneNumber);
+    logger.debug("Received sms from: {}, async handling", fromPhoneNumber);
     String response = getBotResponse(fromPhoneNumber, sms);
     this.twilioSMSDispatchService.sendSMS(fromPhoneNumber, response);
 
   }
 
   public String sendMessageSync(String fromPhoneNumber, String sms) {
-    logger.info("Received sms from: {}, sync handling", fromPhoneNumber);
+    logger.debug("Received sms from: {}, sync handling", fromPhoneNumber);
     String response = getBotResponse(fromPhoneNumber, sms);
     String twilioResponse = this.twilioSMSDispatchService.getTwilioResponse(response);
     return twilioResponse;

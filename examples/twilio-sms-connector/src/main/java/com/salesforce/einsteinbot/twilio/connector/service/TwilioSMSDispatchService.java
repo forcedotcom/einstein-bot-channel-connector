@@ -39,7 +39,7 @@ public class TwilioSMSDispatchService {
   }
 
   /**
-   * This method generates the TWIML code to send a text
+   * This method generates the TWIML code for sending an sms
    */
 
   public String getTwilioResponse(String response) {
@@ -52,7 +52,7 @@ public class TwilioSMSDispatchService {
   }
 
   /**
-   * This method directly sends a text
+   * This method sends an SMS with content equal to response to toPhoneNumber
    */
   @Async
   public void sendSMS(String toPhoneNumber, String response) {
@@ -62,7 +62,5 @@ public class TwilioSMSDispatchService {
     com.twilio.rest.api.v2010.account.Message message = com.twilio.rest.api.v2010.account.Message.creator(
             phoneNumber, fromPhoneNumber, response)
         .create();
-
-    System.out.println(message.getSid());
   }
 }
