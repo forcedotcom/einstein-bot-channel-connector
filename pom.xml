@@ -85,6 +85,7 @@
     <module>examples/ui-connector</module>
     <module>examples/twitter-connector</module>
     <module>examples/twilio-sms-connector</module>
+    <module>examples/slack-connector</module>
   </modules>
 
   <build>
