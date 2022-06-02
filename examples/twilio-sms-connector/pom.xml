@@ -1,44 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2022, salesforce.com, inc.
+  ~ All rights reserved.
+  ~ SPDX-License-Identifier: BSD-3-Clause
+  ~ For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+  -->
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <artifactId>twilio-demo-connector</artifactId>
-  <groupId>com.salesforce.einsteinbot.twilio</groupId>
   <modelVersion>4.0.0</modelVersion>
 
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <groupId>org.springframework.boot</groupId>
-        <version>${spring-boot-maven-plugin.version}</version>
-      </plugin>
-    </plugins>
-  </build>
-  <dependencies>
-
-    <dependency>
-      <artifactId>einstein-bot-channel-connector-java-starter</artifactId>
-      <groupId>com.salesforce.einsteinbot</groupId>
-      <version>${channel-connector-java-starter.version}</version>
-    </dependency>
-
-    <dependency>
-      <artifactId>twilio</artifactId>
-      <groupId>com.twilio.sdk</groupId>
-      <version>${twilio-sdk.version}</version>
-    </dependency>
-
-
-  </dependencies>
-
-  <name>twilio-connector</name>
-
-  <parent>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <groupId>org.springframework.boot</groupId>
-    <version>2.6.6</version> <!-- lookup parent from repository -->
-  </parent>
+  <groupId>com.salesforce.einsteinbot</groupId>
+  <artifactId>einstein-bot-twilio-sms-connector</artifactId>
+  <version>2.0.3-SNAPSHOT</version>
+  <name>einstein-bot-twilio-sms-connector</name>
 
   <properties>
     <bootstrap.version>4.2.1</bootstrap.version>
@@ -50,6 +25,39 @@
     <twilio-sdk.version>7.47.2</twilio-sdk.version>
   </properties>
 
-  <version>1.0.0-SNAPSHOT</version>
+  <parent>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <groupId>org.springframework.boot</groupId>
+    <version>2.6.6</version> <!-- lookup parent from repository -->
+  </parent>
 
+  <dependencies>
+    <dependency>
+      <artifactId>einstein-bot-channel-connector-java-starter</artifactId>
+      <groupId>com.salesforce.einsteinbot</groupId>
+      <version>${channel-connector-java-starter.version}</version>
+    </dependency>
+    <dependency>
+      <artifactId>twilio</artifactId>
+      <groupId>com.twilio.sdk</groupId>
+      <version>${twilio-sdk.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <version>${spring-boot-maven-plugin.version}</version>
+      </plugin>
+    </plugins>
+  </build>
+
+  <scm>
+    <tag>HEAD</tag>
+    <connection>scm:git:https://github.com/forcedotcom/einstein-bot-channel-connector.git</connection>
+    <developerConnection>scm:git:https://github.com/forcedotcom/einstein-bot-channel-connector.git</developerConnection>
+    <url>https://github.com/forcedotcom/einstein-bot-channel-connector</url>
+  </scm>
 </project>
