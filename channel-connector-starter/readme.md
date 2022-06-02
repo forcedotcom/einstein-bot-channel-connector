@@ -41,11 +41,10 @@ sfdc.einstein.bots.oauth.connected-app-secret=${CONNECTED_APP_SECRET}
 sfdc.einstein.bots.oauth.user-id=${SFDC_USER_ID}
 
 #Optional OAuth Cache properties
-#Time to cache information to avoid network requests. 
-#For e.g oAuth token will cached for ttlseconds.
-sfdc.einstein.bots.oauth.cache.ttlseconds=${CACHE_TTL_SECS:259140}
+#Time to cache oAuth token to avoid network requests. 
+sfdc.einstein.bots.oauth.cache.ttlseconds=${OAUTH_CACHE_TTL_SECS:259140}
 #Optional to use Redis as OAuth Cache.
-sfdc.einstein.bots.oauth.cache.redis-url=${CACHE_REDIS_URL}
+sfdc.einstein.bots.oauth.cache.redis-url=${OAUTH_CACHE_REDIS_URL}
 
 #Session Managed Client Cache properties
 #Time to cache External Session Id to Runtime Session Id mapping.

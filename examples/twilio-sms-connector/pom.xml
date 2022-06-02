@@ -5,67 +5,54 @@
   ~ SPDX-License-Identifier: BSD-3-Clause
   ~ For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.salesforce.einsteinbot</groupId>
-  <artifactId>einstein-bot-twitter-connector</artifactId>
+  <artifactId>einstein-bot-twilio-sms-connector</artifactId>
   <version>2.0.3-SNAPSHOT</version>
-  <name>einstein-bot-twitter-connector</name>
+  <name>einstein-bot-twilio-sms-connector</name>
 
   <properties>
+    <bootstrap.version>4.2.1</bootstrap.version>
     <java.version>1.8</java.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <bootstrap.version>4.2.1</bootstrap.version>
-    <okhttp-version>4.9.2</okhttp-version>
+    <spring-boot-maven-plugin.version>2.4.1</spring-boot-maven-plugin.version>
+    <channel-connector-java-starter.version>2.0.2</channel-connector-java-starter.version>
+    <twilio-sdk.version>7.47.2</twilio-sdk.version>
   </properties>
 
   <parent>
-    <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.6.6</version>
+    <groupId>org.springframework.boot</groupId>
+    <version>2.6.6</version> <!-- lookup parent from repository -->
   </parent>
 
   <dependencies>
     <dependency>
-      <groupId>com.salesforce.einsteinbot</groupId>
       <artifactId>einstein-bot-channel-connector-java-starter</artifactId>
-      <version>2.0.3-SNAPSHOT</version>
+      <groupId>com.salesforce.einsteinbot</groupId>
+      <version>${channel-connector-java-starter.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.squareup.okhttp3</groupId>
-      <artifactId>okhttp</artifactId>
-      <version>${okhttp-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.squareup.okhttp3</groupId>
-      <artifactId>logging-interceptor</artifactId>
-      <version>${okhttp-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.twitter</groupId>
-      <artifactId>twitter-api-java-sdk</artifactId>
-      <version>1.1.1</version>
+      <artifactId>twilio</artifactId>
+      <groupId>com.twilio.sdk</groupId>
+      <version>${twilio-sdk.version}</version>
     </dependency>
   </dependencies>
+
   <build>
     <plugins>
       <plugin>
-        <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>2.4.1</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
+        <groupId>org.springframework.boot</groupId>
+        <version>${spring-boot-maven-plugin.version}</version>
       </plugin>
     </plugins>
   </build>
-
 
   <scm>
     <tag>HEAD</tag>
