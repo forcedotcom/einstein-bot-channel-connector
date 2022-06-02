@@ -38,20 +38,17 @@ public class ChatbotService {
   @Value("${sfdc.einstein.bots.force-config-endpoint}")
   private String forceConfigEndpoint;
 
-  private static final Logger logger = LoggerFactory.getLogger(SessionIdProvider.class);
+  private static final Logger logger = LoggerFactory.getLogger(ChatbotService.class);
 
   private RequestConfig requestConfig;
 
-  /*
-  Remove slack specific text from message to bots
-   */
+  // Remove slack specific text from message to bots
   public String cleanText(String text){
     String response = text;
 
-    /*
-    Changes email address from <mailto:lbailey@example.com|lbailey@example.com>
-    to lbailey@example.com
-     */
+
+    // Changes email address from <mailto:test@example.com|test@example.com> slack format
+    // to test@example.com normal text that bots recognizes
     if (response.contains(Constants.MAIL_TO_START)){
       int start = response.indexOf(Constants.MAIL_TO_START),
           middle = response.indexOf(Constants.PIPE_SEPARATOR),
@@ -71,34 +68,28 @@ public class ChatbotService {
         orgId(this.orgId).
         forceConfigEndpoint(this.forceConfigEndpoint).
         build();
-    logger.info("Setup the request config {}", this.requestConfig);
+    logger.debug("Setup the request config {}", this.requestConfig);
   }
 
   public BotResponse sendToBots(String message, ExternalSessionId externalSessionKey) {
-    /*
-     Build the message
-     */
+    // Build the message
     TextMessage textMessage = new TextMessage().text(this.cleanText(message))
         .type(TextMessage.TypeEnum.TEXT)
         .sequenceId(System.currentTimeMillis());
 
-    /*
-    Build the request
-     */
+    // Build the request
     BotSendMessageRequest botSendMessageRequest = BotRequest.withMessage(textMessage).build();
 
-    /*
-    Send the message and get a response from bots api
-     */
+    // Send the message and get a response from bots api
     BotResponse resp = null;
-    logger.info("Request for sessionID {}: {}", externalSessionKey, botSendMessageRequest);
+    logger.debug("Request for sessionID {}: {}", externalSessionKey, botSendMessageRequest);
     try {
        resp = this.sessionManagedChatbotClient.sendMessage(this.requestConfig,
           externalSessionKey, botSendMessageRequest);
     } catch (Exception exception){
-      logger.error("Encountered Exception sending request to bots from Heroku. ", exception);
+      logger.error("Encountered Exception sending request to bots. ", exception);
     }
-    logger.info("Response for sessionID {} : {}", externalSessionKey, resp);
+    logger.debug("Response for sessionID {} : {}", externalSessionKey, resp);
     return resp;
   }
 

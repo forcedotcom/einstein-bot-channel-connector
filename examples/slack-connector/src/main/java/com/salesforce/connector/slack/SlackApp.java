@@ -8,6 +8,7 @@
 package com.salesforce.connector.slack;
 
 import com.salesforce.connector.chatbot.service.SessionIdProvider;
+import com.salesforce.connector.chatbot.util.Constants;
 import com.salesforce.connector.slack.service.SlackService;
 import com.slack.api.app_backend.events.payload.EventsApiPayload;
 import com.slack.api.bolt.context.builtin.ActionContext;
@@ -62,8 +63,8 @@ public class SlackApp {
         threadTs = req.getPayload().getMessage().getTs();
       }
 
-      logger.info("Full selection payload {}", req.getPayload().getActions().get(0).toString());
-      logger.info("Request Text {}", requestText);
+      logger.debug("Full selection payload {}", req.getPayload().getActions().get(0).toString());
+      logger.debug("Request Text {}", requestText);
       slackService.process(app, requestText, this.sessionIdProvider, ctx, user, channel, threadTs);
     }
 

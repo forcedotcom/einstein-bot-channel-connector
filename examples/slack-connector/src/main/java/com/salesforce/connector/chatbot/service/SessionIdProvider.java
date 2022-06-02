@@ -37,7 +37,7 @@ public class SessionIdProvider {
     if (!this.sessionIds.containsKey(key)){
       this.sessionIds.put(key, createSessionId());
     }
-    logger.info("External Session id for user {} is {} " , key, this.sessionIds.get(key));
+    logger.debug("External Session id for user {} is {} " , key, this.sessionIds.get(key));
     return this.sessionIds.get(key);
   }
 

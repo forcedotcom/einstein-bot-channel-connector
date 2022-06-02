@@ -1,6 +1,7 @@
 package com.salesforce.connector.slack.service;
 
 import com.salesforce.connector.chatbot.service.ChatbotService;
+import com.salesforce.connector.chatbot.util.Constants;
 import com.salesforce.connector.chatbot.service.SessionIdProvider;
 import com.salesforce.einsteinbot.sdk.client.model.BotResponse;
 import com.salesforce.einsteinbot.sdk.model.AnyResponseMessage;
@@ -12,7 +13,6 @@ import com.google.common.base.Preconditions;
 import com.slack.api.methods.SlackApiException;
 import com.slack.api.model.block.composition.OptionObject;
 import com.slack.api.model.block.element.BlockElement;
-import com.salesforce.connector.slack.Constants;
 import com.slack.api.bolt.App;
 import com.slack.api.bolt.context.Context;
 import com.slack.api.model.block.ActionsBlock;
@@ -81,7 +81,7 @@ public class SlackService {
 
   private void processTextResponse(AnyResponseMessage message, Context ctx, String user,
       String channel, String threadTs ) throws SlackApiException, IOException {
-    logger.info("MESSAGE: {}", ((TextResponseMessage) message).getText());
+    logger.debug("MESSAGE: {}", ((TextResponseMessage) message).getText());
     String response = cleanTextResponse(((TextResponseMessage) message).getText(),
         user);
     ctx.client().chatPostMessage(r -> r
@@ -96,14 +96,14 @@ public class SlackService {
 
   private void processChoiceResponse(AnyResponseMessage message, Context ctx, String channel,
       String threadTs) throws SlackApiException, IOException {
-    logger.info("MESSAGE: **choice message**");
+    logger.debug("MESSAGE: **choice message**");
     java.util.List<com.slack.api.model.block.LayoutBlock> messageBlocks;
     if (isFlag(Constants.USE_BUTTONS)) {
       messageBlocks = createSlackButtonMessage((ChoicesResponseMessage) message);
     } else {
       messageBlocks = createSlackStaticSelectMessage((ChoicesResponseMessage) message);
     }
-    logger.info(messageBlocks.toString());
+    logger.debug(messageBlocks.toString());
     ctx.client().chatPostMessage(r -> r
         .channel(channel)
         .blocks(messageBlocks)
@@ -129,10 +129,10 @@ public class SlackService {
 
   private void sendToSlack(BotResponse botResponse, Context ctx, String user, String channel,
                            String threadTs, SessionIdProvider sessionIdProvider) {
-    logger.info("USER {} " , user);
-    logger.info("CHANNEL {} " , channel);
-    logger.info("THREADTS {}" , threadTs);
-    logger.info("SESSIONID {}" , sessionIdProvider.getSessionId(user));
+    logger.debug("USER {} " , user);
+    logger.debug("CHANNEL {} " , channel);
+    logger.debug("THREADTS {}" , threadTs);
+    logger.debug("SESSIONID {}" , sessionIdProvider.getSessionId(user));
     /*
      * Iterate over every message in response from einstein bots and convert each piece
      * to an appropriate Slack message.
@@ -153,7 +153,7 @@ public class SlackService {
         postBotErrorMessage(ctx, channel, threadTs);
       }
     } catch (Exception exception) {
-      logger.error("Encountered Exception sending request to slack from Heroku", exception);
+      logger.error("Encountered Exception sending request to slack", exception);
     }
   }
 
