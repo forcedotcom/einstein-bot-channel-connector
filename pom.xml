@@ -84,6 +84,7 @@
     <module>channel-connector-archetype</module>
     <module>examples/ui-connector</module>
     <module>examples/twitter-connector</module>
+    <module>examples/twilio-sms-connector</module>
   </modules>
 
   <build>
