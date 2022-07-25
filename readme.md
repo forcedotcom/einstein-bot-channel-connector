@@ -1,4 +1,4 @@
-# Einstein Bot Channel Connector 
+# Spring Boot Channel Connector for Einstein Bots
 
 This is the parent project of Einstein Bot Channel Connector. This contains following submodules:
 
