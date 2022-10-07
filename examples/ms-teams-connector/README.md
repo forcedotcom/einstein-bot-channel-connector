@@ -1,9 +1,9 @@
 # Einstein Bots On Slack
-This examples illustrates how can customers connect to Einstein Bots from Microsoft Teams using the Einstein chatbot connector. 
+This example illustrates the use of channel connector framework to connect Microsoft Teams users to Einstein Bots. 
 
-The code is designed to be deployed as a [Heroku](https://dashboard.heroku.com) app but can also be executed locally with ngrok as described [here]().
+The code is designed to be deployed as a [Heroku](https://dashboard.heroku.com) app but can also be executed in a local development environment with ngrok.
 
-This document covers set up process to set up and deploy the Microsoft Teams connector.
+This document covers the process to set up and deploy the Microsoft Teams connector.
 
 ## Pre-requisites
 
@@ -11,7 +11,7 @@ This document covers set up process to set up and deploy the Microsoft Teams con
     
 1. Einstein Bots
 
-    This document assumes that you have an active Org with Chat or Messaging licenses to have access to Einstein Chatbots.
+    You must have an active Org with Chat or Messaging licenses to have access to Einstein Chatbots.
 
 2. Microsoft Teams Account
 
@@ -21,6 +21,7 @@ This document covers set up process to set up and deploy the Microsoft Teams con
 
 The setup is divided into 3 parts:
  - Einstein Bots setup
+ - Update configurations of the demo connector to point to your environment.
  - Microsoft Teams setup
  
 
@@ -30,6 +31,8 @@ Before you can run this app, you need to
 
 * [Create a Connected App to Access Einstein Bot APIs](https://developer.salesforce.com/docs/service/einstein-bot-api/guide/prerequisites.html#step-1:-create-a-connected-app)
 * [Configure an Einstein Bot](https://developer.salesforce.com/docs/service/einstein-bot-api/guide/prerequisites.html#step-2:-configure-an-einstein-bot)
+
+### Update Configuration
 
 Configure the demo applications to use your newly created test bot. This can be done by setting the following properties in `application.properties`. 
 
@@ -41,9 +44,9 @@ Configure the demo applications to use your newly created test bot. This can be 
    
 ### Microsoft Teams setup
 
-This guide assumes that a Microsoft Teams account has already been created and set up. This Section covers the steps needed in Microsoft Teams to allow it to send and receive messages to Einstein Chatbots. To do this, an outgoing webhook must be defined from Microsoft Teams which will point to the connector end-point defined in this example. For the latest instructions, please refer to the [official instructions here](https://learn.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-outgoing-webhook).
-- Select Teams from the left pane. The Teams page appears
-- In the Teams page, select the required team to create an Outgoing Webhook and select the •••. 
+A Microsoft Teams account must already have been created and set up. Please refer to Microsoft's documentation to set up an account. In the following, we will set up an outgoing webhook from Microsoft Teams which will point to the connector end-point defined in this example. For the latest instructions, please refer to the [official instructions here](https://learn.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-outgoing-webhook). From Teams desktop application,
+- Select Teams from the left pane. 
+- In the Teams page, select the required team for which you would like to create an Outgoing Webhook and select the •••. 
 - In the dropdown menu, select Manage team. 
 - Select the Apps tab on the channel page. Select `Create an Outgoing Webhook`
 - Type the following details in the `Create an Outgoing Webhook` page:
@@ -56,7 +59,6 @@ This guide assumes that a Microsoft Teams account has already been created and s
 The newly create Outgoing Webhook acts as a bot and search for messages in channels using @mention. The messages will be received by this demo connector and will be forwarded to the Einstein Chatbot.
 
 ## Running the example
-* Update [application.properties](src/main/resources/application.properties) according to your setup.
 * Build your application in your desired development environment.
 * Deploy your application on Heroku or on your local environment using ngrok. When executing in a local dev environment
   * Execute `ngrok http 8080` to start a ngrok session. It will associate a public url to your local dev server.
