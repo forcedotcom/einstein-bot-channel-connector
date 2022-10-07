@@ -35,7 +35,7 @@ Once ngrok is installed and setup, executing `ngrok http 8080` from command line
 * Update [application.properties](src/main/resources/application.properties) according to your setup.
 * Build your application in your desired development environment or `mvn install` if using maven.
 * Execute `ngrok http 8080` to start a ngrok session. This example assumes the default port of 8080 is used by Spring Boot.  
-* In Twilio's phone number settting, configure the webhook corresponding to the section `A MESSAGE COMES IN` to type `HTTP GET` and set it to the public url created by ngrok,   `http://*.ngrok.io/bot/twiml` in this example.
+* In Twilio's phone number setting, configure the webhook corresponding to the section `A MESSAGE COMES IN` to type `HTTP GET` and set it to the public url created by ngrok,   `http://*.ngrok.io/bot/twiml` in this example.
 * Run spring boot application using maven `mvn spring-boot:run`
 * The demo can be tested by visiting `http://localhost:8080/bot/twiml/?From=123456789&Body=hello` locally and `http://*.ngrok.io/bot/twiml?From=123456789&Body=hello` through the web.  
 * At this point, the bot can also be reached by sending a text message to the Twilio virtual phone number.
