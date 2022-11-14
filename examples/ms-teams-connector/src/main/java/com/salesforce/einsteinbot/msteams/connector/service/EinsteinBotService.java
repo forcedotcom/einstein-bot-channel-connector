@@ -7,20 +7,19 @@
 
 package com.salesforce.einsteinbot.msteams.connector.service;
 
+import static com.salesforce.einsteinbot.msteams.connector.utils.UtilFunctions.getTextMessageFromResponseObject;
+import static com.salesforce.einsteinbot.sdk.client.util.RequestFactory.buildBotSendMessageRequest;
 import static com.salesforce.einsteinbot.sdk.client.util.RequestFactory.buildTextMessage;
 import static com.salesforce.einsteinbot.sdk.util.UtilFunctions.convertObjectToJson;
-import static com.salesforce.einsteinbot.msteams.connector.utils.UtilFunctions.buildBotRequest;
-import static com.salesforce.einsteinbot.msteams.connector.utils.UtilFunctions.getTextMessageFromResponseObject;
 
 import com.salesforce.einsteinbot.sdk.client.SessionManagedChatbotClient;
 import com.salesforce.einsteinbot.sdk.client.model.BotResponse;
 import com.salesforce.einsteinbot.sdk.client.model.BotSendMessageRequest;
 import com.salesforce.einsteinbot.sdk.client.model.ExternalSessionId;
 import com.salesforce.einsteinbot.sdk.client.model.RequestConfig;
-import com.salesforce.einsteinbot.sdk.client.util.RequestEnvelopeInterceptor;
 import com.salesforce.einsteinbot.sdk.model.AnyRequestMessage;
+import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicReference;
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,9 +38,9 @@ public class EinsteinBotService {
   private SessionManagedChatbotClient chatbotClient;
   @Value("${sfdc.einstein.bots.force-config-endpoint}")
   private String forceConfigEndpoint;
-  @Value("${sfdc.einstein.bots.orgId:}")
+  @Value("${sfdc.einstein.bots.orgId}")
   private String orgId;
-  @Value("${sfdc.einstein.bots.botId:}")
+  @Value("${sfdc.einstein.bots.botId}")
   private String botId;
   private RequestConfig requestConfig;
 
@@ -62,18 +61,16 @@ public class EinsteinBotService {
     ExternalSessionId externalSessionId = new ExternalSessionId(sessionId);
     // create request
     AnyRequestMessage message = buildTextMessage(botMessage);
-    AtomicReference<Object> requestData = new AtomicReference<>();
-    RequestEnvelopeInterceptor requestEnvelopeInterceptor =
-        (requestEnvelope) -> requestData.set(requestEnvelope);
     try {
-      BotSendMessageRequest botRequest = buildBotRequest(message, requestEnvelopeInterceptor);
+      Optional<String> requestId = Optional.of(UUID.randomUUID().toString());
+      BotSendMessageRequest botRequest= buildBotSendMessageRequest(message,requestId);
       BotResponse botResponse = chatbotClient.sendMessage(requestConfig,
           externalSessionId,
           botRequest);
       Object jsonResponse = convertObjectToJson(botResponse);
       response = getTextMessageFromResponseObject(botResponse.getResponseEnvelope());
     } catch (Exception e) {
-      logger.error("Exception occurred ", e);
+      logger.error("Exception occurred in sending botRequest: ", e);
     }
     return response;
   }

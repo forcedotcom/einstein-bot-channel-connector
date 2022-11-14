@@ -7,19 +7,17 @@
 
 package com.salesforce.einsteinbot.msteams.connector.controller;
 
-import com.salesforce.einsteinbot.msteams.connector.service.EinsteinBotService;
 import com.microsoft.bot.schema.Activity;
+import com.salesforce.einsteinbot.msteams.connector.service.EinsteinBotService;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 
 /**
@@ -30,14 +28,8 @@ import org.springframework.web.client.RestTemplate;
 public class MSTeamsWebhookListener {
 
   private static final Logger logger = LoggerFactory.getLogger(MSTeamsWebhookListener.class);
-  private final RestTemplate restTemplate;
-
   @Autowired
   private EinsteinBotService einsteinBotService;
-
-  public MSTeamsWebhookListener(RestTemplateBuilder restTemplateBuilder) {
-    this.restTemplate = restTemplateBuilder.build();
-  }
 
   @PostMapping("/bot")
   public Activity sendToDo(@RequestBody Activity activity) throws URISyntaxException, IOException
