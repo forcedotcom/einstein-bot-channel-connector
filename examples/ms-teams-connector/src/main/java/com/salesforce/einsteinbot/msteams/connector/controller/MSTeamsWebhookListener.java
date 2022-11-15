@@ -32,11 +32,12 @@ public class MSTeamsWebhookListener {
   private EinsteinBotService einsteinBotService;
 
   @PostMapping("/bot")
-  public Activity sendToDo(@RequestBody Activity activity) throws URISyntaxException, IOException
+  public Activity sendToChatbot(@RequestBody Activity activity) throws URISyntaxException, IOException
   {
     String teamsSessionId = activity.getFrom().getId();
     String senderName = activity.getFrom().getName();
     // remove bot handle/mention from the message
+    logger.debug("Request received from MS-Teams user {}.",senderName);
     String incomingMessage = activity.getText().replaceAll("(?s)<at>.*?</at>", "").trim();
     String responseMessage = this.einsteinBotService.sendMessageSync(teamsSessionId, incomingMessage);
 

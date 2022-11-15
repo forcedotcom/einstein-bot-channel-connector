@@ -70,6 +70,7 @@ public class EinsteinBotService {
       Object jsonResponse = convertObjectToJson(botResponse);
       response = getTextMessageFromResponseObject(botResponse.getResponseEnvelope());
     } catch (Exception e) {
+      response = "Sorry for the inconvenience. An error has been encountered while connecting to the bot. A log of the error has been saved.";
       logger.error("Exception occurred in sending botRequest: ", e);
     }
     return response;

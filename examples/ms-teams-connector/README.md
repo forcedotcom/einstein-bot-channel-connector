@@ -1,4 +1,4 @@
-# Einstein Bots On Slack
+# Einstein Bots On Microsoft Teams
 This example illustrates the use of channel connector framework to connect Microsoft Teams users to Einstein Bots. 
 
 The code is designed to be deployed as a [Heroku](https://dashboard.heroku.com) app but can also be executed in a local development environment with ngrok.
