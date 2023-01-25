@@ -46,7 +46,8 @@ Here is the Channel connector version and corresponding Runtime API version supp
 | Channel connector Version | Supported Runtime API
 | --------------------------| --------------------------------------
 | 1.x.x                     | /v4.0.0
-| 2.x.x                     | /v5.0.0
+| 2.0.x                     | /v5.0.0
+| 2.1.x                     | /v5.1.0
 
 ### Branching model to support development of multiple API versions
 
