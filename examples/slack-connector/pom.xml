@@ -11,7 +11,7 @@
 
   <groupId>com.salesforce.chatbot</groupId>
   <artifactId>einstein-bot-slack-connector</artifactId>
-  <version>2.0.4-SNAPSHOT</version>
+  <version>2.0.4</version>
   <name>einstein-bot-slack-connector</name>
 
   <properties>
@@ -22,7 +22,7 @@
     <slack.api.version>1.12.1</slack.api.version>
     <spring.reactor.core.version>3.4.18</spring.reactor.core.version>
     <netty.version>4.1.77.Final</netty.version>
-    <channel-connector-java-starter.version>2.0.4-SNAPSHOT
+    <channel-connector-java-starter.version>2.0.4
     </channel-connector-java-starter.version>
   </properties>
 
@@ -94,7 +94,7 @@
 
 
   <scm>
-    <tag>HEAD</tag>
+    <tag>v2.0.4</tag>
     <connection>scm:git:https://github.com/forcedotcom/einstein-bot-channel-connector.git</connection>
     <developerConnection>scm:git:https://github.com/forcedotcom/einstein-bot-channel-connector.git</developerConnection>
     <url>https://github.com/forcedotcom/einstein-bot-channel-connector</url>
