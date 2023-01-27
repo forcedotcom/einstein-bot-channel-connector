@@ -12,6 +12,8 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <bootstrap.version>4.2.1</bootstrap.version>
+    <channel-connector-java-starter.version>2.0.3-SNAPSHOT
+    </channel-connector-java-starter.version>
   </properties>
 
   <parent>
@@ -24,7 +26,7 @@
     <dependency>
       <groupId>com.salesforce.einsteinbot</groupId>
       <artifactId>einstein-bot-channel-connector-java-starter</artifactId>
-      <version>2.0.2</version>
+      <version>${channel-connector-java-starter.version}</version>
     </dependency>
   </dependencies>
   <build>

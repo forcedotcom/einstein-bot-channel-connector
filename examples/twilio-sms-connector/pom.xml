@@ -21,8 +21,9 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <spring-boot-maven-plugin.version>2.4.1</spring-boot-maven-plugin.version>
-    <channel-connector-java-starter.version>2.0.2</channel-connector-java-starter.version>
     <twilio-sdk.version>7.47.2</twilio-sdk.version>
+    <channel-connector-java-starter.version>2.0.3-SNAPSHOT
+    </channel-connector-java-starter.version>
   </properties>
 
   <parent>
