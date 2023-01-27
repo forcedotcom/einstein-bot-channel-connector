@@ -11,7 +11,7 @@
 
   <groupId>com.salesforce.chatbot</groupId>
   <artifactId>einstein-bot-slack-connector</artifactId>
-  <version>2.0.4-SNAPSHOT</version>
+  <version>2.0.3-SNAPSHOT</version>
   <name>einstein-bot-slack-connector</name>
 
   <properties>
@@ -22,7 +22,7 @@
     <slack.api.version>1.12.1</slack.api.version>
     <spring.reactor.core.version>3.4.18</spring.reactor.core.version>
     <netty.version>4.1.77.Final</netty.version>
-    <channel-connector-java-starter.version>2.0.4-SNAPSHOT
+    <channel-connector-java-starter.version>2.0.3-SNAPSHOT
     </channel-connector-java-starter.version>
   </properties>
 
@@ -80,6 +80,13 @@
             <web>java -Dserver.port=$PORT $JAVA_OPTS -cp target/classes:target/dependency/* com.salesforce.connector.Application</web>
           </processTypes>
           <appName>glacial-dawn-73028</appName>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
         </configuration>
       </plugin>
     </plugins>
