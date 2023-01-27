@@ -12,13 +12,13 @@
   <parent>
     <groupId>com.salesforce.einsteinbot</groupId>
     <artifactId>einstein-bot-channel-connector</artifactId>
-    <version>2.1.1-SNAPSHOT</version>
+    <version>2.1.1</version>
     <relativePath>../</relativePath>
   </parent>
 
   <groupId>com.salesforce.einsteinbot</groupId>
   <artifactId>einstein-bot-channel-connector-java-starter</artifactId>
-  <version>2.1.1-SNAPSHOT</version>
+  <version>2.1.1</version>
   <name>einstein-bot-channel-connector-java-starter</name>
   <description>Channel Connector Framework is spring boot starter that simplifies building channel connectors for the salesforce einstein bot.</description>
   <url>https://github.com/forcedotcom/einstein-bot-channel-connector</url>
